@@ -3,7 +3,6 @@ package com.raphael.Library.entities.books;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.awt.print.Book;
 import java.util.List;
 import java.util.UUID;
 
