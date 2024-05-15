@@ -14,20 +14,26 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "possession")
-public class Possession {
+public class Requisition {
 
     @Id
+    @Column(name = "requisition_id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID requisitionId;
 
+    @ManyToOne
+    @JoinColumn(name = "associate_id")
+    private Associate associate;
+
     @OneToOne
+    @JoinColumn(name = "book_id")
     private Book book;
 
+    @Column(name = "status")
     private Status status;
 
     @CreationTimestamp
     private LocalDate retiredDate;
 
-    //1 mouth
     private LocalDate devolutionDate;
 }

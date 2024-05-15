@@ -3,7 +3,6 @@ package com.raphael.Library.entities.books;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.awt.print.Book;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,17 +11,17 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "publisher")
-public class Publisher {
+@Entity(name = "department")
+public class Department {
 
     @Id
-    @Column(name = "publisher_id")
+    @Column(name = "department_id")
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID publisherId;
+    private UUID departmentId;
 
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "publisher")
+    @OneToMany(mappedBy = "department")
     private List<Book> books;
 }

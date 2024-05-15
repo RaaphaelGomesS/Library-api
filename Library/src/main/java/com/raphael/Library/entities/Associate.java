@@ -15,23 +15,23 @@ import java.util.UUID;
 public class Associate {
 
     @Id
+    @Column(name = "associate_id")
     @GeneratedValue(strategy = GenerationType.UUID)
-    UUID id;
+    private UUID associateId;
 
     @Column(name = "name", nullable = false)
-    String name;
+    private String name;
 
     @Column(name = "email")
-    String email;
+    private String email;
 
     @Column(name = "phone")
-    String phone;
+    private String phone;
 
     @OneToOne
-    @Column(name = "address", nullable = false)
-    Address address;
+    @JoinColumn(name = "addressId")
+    private Address address;
 
-    @OneToMany
-    @Column(name = "books")
-    List<Possession> books;
+    @OneToMany(mappedBy = "associate")
+    private List<Requisition> booksInPossession;
 }
