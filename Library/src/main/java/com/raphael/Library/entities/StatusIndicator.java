@@ -1,6 +1,6 @@
 package com.raphael.Library.entities;
 
-public enum Status {
+public enum StatusIndicator {
 
     ABERTO,
     POSTERGADO,
