@@ -30,7 +30,7 @@ public class Requisition {
     private Book book;
 
     @Column(name = "status")
-    private Status status;
+    private StatusIndicator statusIndicator;
 
     @CreationTimestamp
     private LocalDate retiredDate;
