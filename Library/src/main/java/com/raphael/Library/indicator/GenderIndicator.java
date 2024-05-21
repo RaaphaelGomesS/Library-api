@@ -1,4 +1,4 @@
-package com.raphael.Library.entities;
+package com.raphael.Library.indicator;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,14 +26,4 @@ public enum GenderIndicator {
     KIDS(Arrays.asList("infantil", "crianças"));
 
     private List<String> names;
-
-    public static GenderIndicator getValueByName(String name) {
-
-        for (GenderIndicator indicator : values()) {
-            if (indicator.getNames().contains(name)) {
-                return indicator;
-            }
-        }
-        return null;
-    }
 }

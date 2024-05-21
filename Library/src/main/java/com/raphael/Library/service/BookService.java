@@ -1,6 +1,8 @@
 package com.raphael.Library.service;
 
+import com.raphael.Library.builder.BookBuilder;
 import com.raphael.Library.dto.BookDTO;
+import com.raphael.Library.entities.books.Author;
 import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.exception.BookException;
 import com.raphael.Library.repository.BookRepository;
@@ -15,13 +17,11 @@ public class BookService {
 
     private BookRepository repository;
 
+    public Book createBook(BookDTO bookDTO) throws BookException {
 
-    public Book createBook(BookDTO newBook) throws BookException {
+        verifyIfAlreadyExist(bookDTO);
 
-        verifyIfAlreadyExist(newBook);
-
-
-
+        Book book = BookBuilder.from(bookDTO);
 
     }
 

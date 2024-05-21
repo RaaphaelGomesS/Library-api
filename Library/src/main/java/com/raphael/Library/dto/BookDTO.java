@@ -11,9 +11,9 @@ public class BookDTO {
 
     private String bookName;
 
-    private String authorName;
+    private String gender;
 
-    private String departmentName;
+    private String authorName;
 
     private String publisherName;
 }
