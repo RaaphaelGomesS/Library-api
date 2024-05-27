@@ -28,10 +28,6 @@ public class Associate {
     @Column(name = "phone")
     private String phone;
 
-    @OneToOne
-    @JoinColumn(name = "addressId")
-    private Address address;
-
     @OneToMany(mappedBy = "associate")
     private List<Requisition> booksInPossession;
 }

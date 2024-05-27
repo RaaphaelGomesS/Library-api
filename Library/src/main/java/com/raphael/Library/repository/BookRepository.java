@@ -14,6 +14,6 @@ import java.util.UUID;
 @EnableJpaRepositories
 public interface BookRepository extends JpaRepository<Book, UUID> {
 
-    @Query("SELECT s FROM book WHERE s.name = :name")
+    @Query("SELECT b FROM book WHERE b.name = :name")
     Optional<Book> getBookByTheName(@Param("name") String name);
 }
