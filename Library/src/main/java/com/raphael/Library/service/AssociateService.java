@@ -5,10 +5,12 @@ import com.raphael.Library.dto.AssociateDTO;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.repository.AssociateRepository;
+import com.raphael.Library.utils.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +24,8 @@ public class AssociateService {
 
         verifyAlreadyExist(associateDTO);
 
+        ValidationUtils.verifyNumber(associateDTO.getPhone());
+
         Associate associate = AssociateBuilder.from(associateDTO);
 
         associateRepository.save(associate);
@@ -29,9 +33,34 @@ public class AssociateService {
         return associate;
     }
 
+
+    public Associate updateAssociate(UUID associateId, AssociateDTO associateDTO) throws AssociateException {
+
+        Associate associate = getById(associateId);
+
+        ValidationUtils.verifyEmail(associateDTO.getEmail());
+        ValidationUtils.verifyNumber(associateDTO.getPhone());
+
+        associate.setName(associateDTO.getName());
+        associate.setEmail(associateDTO.getEmail());
+        associate.setPhone(associateDTO.getPhone());
+
+        associateRepository.save(associate);
+
+        return associate;
+    }
+
+    public void deleteAssociate(UUID associateId) throws AssociateException {
+
+        Associate associate = getById(associateId);
+
+        associateRepository.delete(associate);
+
+    }
+
     private void verifyAlreadyExist(AssociateDTO associateDTO) throws AssociateException {
 
-        verifyEmail(associateDTO.getEmail());
+        ValidationUtils.verifyEmail(associateDTO.getEmail());
 
         Optional<Associate> optionalAssociate = associateRepository.getByEmail(associateDTO.getEmail());
 
@@ -40,14 +69,14 @@ public class AssociateService {
         }
     }
 
-    private void verifyEmail(String email) throws AssociateException {
+    public Associate getById(UUID associateId) throws AssociateException {
 
-        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Optional<Associate> associate = associateRepository.findById(associateId);
 
-        Matcher matcher = pattern.matcher(email);
-
-        if (!matcher.matches()) {
-            throw new AssociateException("O Email é inválido!");
+        if (associate.isEmpty()) {
+            throw new AssociateException("Não existe nenhum associado com esse id!");
         }
+
+        return associate.get();
     }
 }

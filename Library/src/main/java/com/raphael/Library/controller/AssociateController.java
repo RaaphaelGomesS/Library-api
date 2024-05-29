@@ -5,7 +5,7 @@ import com.raphael.Library.entities.Associate;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.service.AssociateService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +18,12 @@ public class AssociateController {
 
     private AssociateService service;
 
-    @GetMapping("/")
-    public ResponseEntity<Associate> getAllAssociates() {
+    @GetMapping("/{id}")
+    public ResponseEntity<Associate> getAssociate(@PathVariable UUID id) throws AssociateException {
 
+        Associate associate = service.getById(id);
+
+        return ResponseEntity.ok(associate);
 
     }
 
@@ -32,18 +35,21 @@ public class AssociateController {
         return ResponseEntity.ok(associate);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Associate> getAssociate(@PathVariable UUID associateId) {
+    @PutMapping("/alter/{id}")
+    public ResponseEntity<Associate> updateAssociate(@PathVariable UUID id, @RequestBody AssociateDTO associateDTO) throws AssociateException {
 
-    }
+        Associate associate = service.updateAssociate(id, associateDTO);
 
-    @PutMapping("/alter")
-    public ResponseEntity<Associate> updateAssociate(@RequestBody AssociateDTO associateDTO) {
+        return ResponseEntity.ok(associate);
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAssociate(@PathVariable UUID associateId) {
+    public ResponseEntity<Void> deleteAssociate(@PathVariable UUID id) throws AssociateException {
+
+        service.deleteAssociate(id);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
 
     }
 }
