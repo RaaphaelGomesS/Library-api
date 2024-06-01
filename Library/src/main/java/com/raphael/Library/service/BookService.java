@@ -44,7 +44,7 @@ public class BookService {
 
     private void verifyIfAlreadyExist(BookDTO bookDTO) throws BookException {
 
-        Optional<Book> foundedBook = bookRepository.getBookByTheName(bookDTO.getBookName());
+        Optional<Book> foundedBook = bookRepository.findByName(bookDTO.getBookName());
 
         if (foundedBook.isPresent()) {
             if (foundedBook.get().getAuthor().getName().equalsIgnoreCase(bookDTO.getAuthorName())) {

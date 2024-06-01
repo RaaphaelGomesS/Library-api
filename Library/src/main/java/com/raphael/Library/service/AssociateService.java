@@ -62,7 +62,7 @@ public class AssociateService {
 
         ValidationUtils.verifyEmail(associateDTO.getEmail());
 
-        Optional<Associate> optionalAssociate = associateRepository.getByEmail(associateDTO.getEmail());
+        Optional<Associate> optionalAssociate = associateRepository.findByEmail(associateDTO.getEmail());
 
         if (optionalAssociate.isPresent()) {
             throw new AssociateException("O Associado já está registrado!");

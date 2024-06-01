@@ -17,7 +17,7 @@ public class PublisherService {
 
     public Publisher createPublisherByBook(BookDTO bookDTO) {
 
-        Optional<Publisher> publisher = repository.getPublisherByName(bookDTO.getPublisherName());
+        Optional<Publisher> publisher = repository.findByName(bookDTO.getPublisherName());
 
         if (publisher.isEmpty()) {
             Publisher newPublisher = Publisher.builder().name(bookDTO.getPublisherName()).books(new ArrayList<>()).build();
