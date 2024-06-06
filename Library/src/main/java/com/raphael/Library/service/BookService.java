@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -64,5 +65,16 @@ public class BookService {
         bookRepository.save(book);
         authorRepository.save(author);
         publisherRepository.save(publisher);
+    }
+
+    public Book getBookById(UUID bookId) throws BookException {
+
+        Optional<Book> foundedBook = bookRepository.findById(bookId);
+
+        if (foundedBook.isEmpty()) {
+            throw new BookException("Não foi encontrado um livro com esse ID!");
+        }
+
+        return foundedBook.get();
     }
 }

@@ -1,6 +1,6 @@
 package com.raphael.Library.entities.books;
 
-import com.raphael.Library.entities.GenderIndicator;
+import com.raphael.Library.indicator.GenderIndicator;
 import com.raphael.Library.entities.Requisition;
 import jakarta.persistence.*;
 import lombok.*;

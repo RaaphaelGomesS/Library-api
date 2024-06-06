@@ -14,6 +14,6 @@ import java.util.UUID;
 @EnableJpaRepositories
 public interface PublisherRepository extends JpaRepository<Publisher, UUID> {
 
-    @Query("SELECT p FROM publisher WHERE p.name = :name")
+    @Query("SELECT p FROM publisher p WHERE p.name = :name")
     Optional<Publisher> findByName(@Param("name") String name);
 }

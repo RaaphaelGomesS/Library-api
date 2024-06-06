@@ -10,6 +10,6 @@ import java.util.UUID;
 
 public interface AssociateRepository extends JpaRepository<Associate, UUID> {
 
-    @Query("SELECT a FROM associate WHERE a.email = :email")
+    @Query("SELECT a FROM associate a WHERE a.email = :email")
     Optional<Associate> findByEmail(@Param("email") String email);
 }

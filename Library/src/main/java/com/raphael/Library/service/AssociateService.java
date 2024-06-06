@@ -3,6 +3,7 @@ package com.raphael.Library.service;
 import com.raphael.Library.builder.AssociateBuilder;
 import com.raphael.Library.dto.AssociateDTO;
 import com.raphael.Library.entities.Associate;
+import com.raphael.Library.entities.Requisition;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.repository.AssociateRepository;
 import com.raphael.Library.utils.ValidationUtils;
@@ -11,8 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -78,5 +77,16 @@ public class AssociateService {
         }
 
         return associate.get();
+    }
+
+    public void addRequisition(Requisition requisition) throws Exception {
+
+        ValidationUtils.verifyManyRequisitionHave(requisition);
+
+        Associate associate = requisition.getAssociate();
+
+        associate.getBooksInPossession().add(requisition);
+
+        associateRepository.save(associate);
     }
 }

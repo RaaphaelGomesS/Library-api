@@ -1,6 +1,7 @@
 package com.raphael.Library.entities;
 
 import com.raphael.Library.entities.books.Book;
+import com.raphael.Library.indicator.StatusIndicator;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,6 +35,8 @@ public class Requisition {
 
     @CreationTimestamp
     private LocalDate retiredDate;
+
+    private LocalDate updateDate;
 
     private LocalDate devolutionDate;
 }
