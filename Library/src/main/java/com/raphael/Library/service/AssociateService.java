@@ -8,6 +8,7 @@ import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.repository.AssociateRepository;
 import com.raphael.Library.utils.ValidationUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AssociateService {
 
-    private AssociateRepository associateRepository;
+    private final AssociateRepository associateRepository;
 
     public Associate createAssociate(AssociateDTO associateDTO) throws AssociateException {
 
@@ -64,7 +65,7 @@ public class AssociateService {
         Optional<Associate> optionalAssociate = associateRepository.findByEmail(associateDTO.getEmail());
 
         if (optionalAssociate.isPresent()) {
-            throw new AssociateException("O Associado já está registrado!");
+            throw new AssociateException("O Associado já está registrado!", HttpStatus.CONFLICT);
         }
     }
 
@@ -73,7 +74,7 @@ public class AssociateService {
         Optional<Associate> associate = associateRepository.findById(associateId);
 
         if (associate.isEmpty()) {
-            throw new AssociateException("Não existe nenhum associado com esse id!");
+            throw new AssociateException("Não existe nenhum associado com esse id!", HttpStatus.NOT_FOUND);
         }
 
         return associate.get();

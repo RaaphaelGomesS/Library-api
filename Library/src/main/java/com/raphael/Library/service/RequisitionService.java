@@ -12,6 +12,7 @@ import com.raphael.Library.exception.RequisitionException;
 import com.raphael.Library.indicator.StatusIndicator;
 import com.raphael.Library.repository.RequisitionRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,18 +22,18 @@ import java.util.Optional;
 @AllArgsConstructor
 public class RequisitionService {
 
-    private RequisitionRepository requisitionRepository;
+    private final RequisitionRepository requisitionRepository;
 
-    private BookService bookService;
+    private final BookService bookService;
 
-    private AssociateService associateService;
+    private final AssociateService associateService;
 
     public RequisitionResponseDTO makeRequisitionByAction(RequisitionRequestDTO requestDTO) throws Exception {
 
         StatusIndicator statusIndicator = StatusIndicator.getValueByAction(requestDTO.getAction());
 
         if (statusIndicator == null) {
-            throw new RequisitionException("Não é possivel criar uma requisição para essa operação!");
+            throw new RequisitionException("Não é possivel criar uma requisição para essa operação!", HttpStatus.CONFLICT);
         }
 
         return switch (statusIndicator) {

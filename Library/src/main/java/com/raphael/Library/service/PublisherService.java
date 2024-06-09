@@ -13,7 +13,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PublisherService {
 
-    private PublisherRepository repository;
+    private final PublisherRepository repository;
 
     public Publisher createPublisherByBook(BookDTO bookDTO) {
 

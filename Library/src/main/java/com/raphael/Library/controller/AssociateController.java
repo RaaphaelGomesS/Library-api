@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/associate")
 public class AssociateController {
 
-    private AssociateService service;
+    private final AssociateService service;
 
     @GetMapping("/{id}")
     public ResponseEntity<Associate> getAssociate(@PathVariable UUID id) throws AssociateException {

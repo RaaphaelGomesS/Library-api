@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthorService {
 
-    private AuthorRepository repository;
+    private final AuthorRepository repository;
 
     public Author createAuthorByBook(BookDTO bookDTO) {
 

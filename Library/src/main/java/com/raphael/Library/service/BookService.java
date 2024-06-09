@@ -10,6 +10,7 @@ import com.raphael.Library.repository.AuthorRepository;
 import com.raphael.Library.repository.BookRepository;
 import com.raphael.Library.repository.PublisherRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,15 +20,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BookService {
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
-    private AuthorRepository authorRepository;
+    private final AuthorRepository authorRepository;
 
-    private PublisherRepository publisherRepository;
+    private final PublisherRepository publisherRepository;
 
-    private AuthorService authorService;
+    private final AuthorService authorService;
 
-    private PublisherService publisherService;
+    private final PublisherService publisherService;
 
     public Book createBook(BookDTO bookDTO) throws BookException {
 
@@ -49,7 +50,7 @@ public class BookService {
 
         if (foundedBook.isPresent()) {
             if (foundedBook.get().getAuthor().getName().equalsIgnoreCase(bookDTO.getAuthorName())) {
-                throw new BookException("Book already exist!");
+                throw new BookException("Book already exist!", HttpStatus.CONFLICT);
             }
         }
     }
@@ -72,7 +73,7 @@ public class BookService {
         Optional<Book> foundedBook = bookRepository.findById(bookId);
 
         if (foundedBook.isEmpty()) {
-            throw new BookException("Não foi encontrado um livro com esse ID!");
+            throw new BookException("Não foi encontrado um livro com esse ID!", HttpStatus.NOT_FOUND);
         }
 
         return foundedBook.get();
