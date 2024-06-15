@@ -3,13 +3,13 @@ package com.raphael.Library.controller;
 import com.raphael.Library.dto.BookDTO;
 import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.exception.BookException;
+import com.raphael.Library.repository.BookRepository;
 import com.raphael.Library.service.BookService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/book")
@@ -17,6 +17,8 @@ import java.util.Optional;
 public class BookController {
 
     private final BookService bookService;
+
+    private final BookRepository bookRepository;
 
     @PostMapping("/")
     public ResponseEntity<Book> createBook(@RequestBody BookDTO bookDTO) throws BookException {
@@ -27,9 +29,25 @@ public class BookController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<Book> getAllBooks(@RequestBody BookDTO bookDTO) throws BookException {
+    public ResponseEntity<List<Book>> getAllBooks() {
 
-        Book book = bookService.createBook(bookDTO);
+        List<Book> books = bookRepository.findAll();
+
+        return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("/author")
+    public ResponseEntity<List<Book>> getAllBooksFromAuthor(@RequestBody String authorName) throws BookException {
+
+        List<Book> book = bookService.getAllBooksByAuthor(authorName);
+
+        return ResponseEntity.ok(book);
+    }
+
+    @GetMapping("/publisher")
+    public ResponseEntity<List<Book>> getAllBooksFromPublisher(@RequestBody String publisherName) throws BookException {
+
+        List<Book> book = bookService.getAllBooksByPublisher(publisherName);
 
         return ResponseEntity.ok(book);
     }

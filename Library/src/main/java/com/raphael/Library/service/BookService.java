@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,6 +42,40 @@ public class BookService {
         addBooks(author, publisher, book);
 
         return book;
+    }
+
+    public List<Book> getAllBooksByAuthor(String authorName) throws BookException {
+
+        Optional<Author> author = authorRepository.findByName(authorName);
+
+        if (author.isEmpty()) {
+            throw new BookException("Author not found!", HttpStatus.NOT_FOUND);
+        }
+
+        List<Book> books = author.get().getBooks();
+
+        if (books.isEmpty()) {
+            throw new BookException("Author has no books!", HttpStatus.NOT_FOUND);
+        }
+
+        return books;
+    }
+
+    public List<Book> getAllBooksByPublisher(String publisherName) throws BookException {
+
+        Optional<Publisher> publisher = publisherRepository.findByName(publisherName);
+
+        if (publisher.isEmpty()) {
+            throw new BookException("Publisher not found!", HttpStatus.NOT_FOUND);
+        }
+
+        List<Book> books = publisher.get().getBooks();
+
+        if (books.isEmpty()) {
+            throw new BookException("Publisher has no books!", HttpStatus.NOT_FOUND);
+        }
+
+        return books;
     }
 
     private void verifyIfAlreadyExist(BookDTO bookDTO) throws BookException {
