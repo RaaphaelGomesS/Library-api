@@ -11,6 +11,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class RequisitionRequestDTO {
 
+    private long requisitionId;
+
     private long bookId;
 
     private long associateId;

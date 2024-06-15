@@ -19,7 +19,5 @@ public class RequisitionResponseDTO {
 
     private LocalDate retiredDate;
 
-    private LocalDate updateDate;
-
     private LocalDate devolutionDate;
 }

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -35,8 +36,8 @@ public class RequisitionService {
 
         return switch (statusIndicator) {
             case ABERTO -> createRequisition(requestDTO);
-            case POSTERGADO -> null;
-            case FINALIZADO -> null;
+            case POSTERGADO -> updateRequisition(requestDTO);
+            case FINALIZADO -> closeRequisition(requestDTO);
         };
     }
 
@@ -61,19 +62,40 @@ public class RequisitionService {
         return RequisitionResponseDTOBuilder.from(requisition);
     }
 
-    //to do
-//    private RequisitionResponseDTO updateRequisition(RequisitionRequestDTO requestDTO) throws Exception {
-//
-//        Book book = bookService.getBookById(requestDTO.getBookId());
-//        Associate associate = associateService.getById(requestDTO.getAssociateId());
-//
-//
-//
-//    }
-//
-//    private RequisitionResponseDTO closeRequisition(RequisitionRequestDTO requestDTO) throws Exception {
-//
-//        Book book = bookService.getBookById(requestDTO.getBookId());
-//        Associate associate = associateService.getById(requestDTO.getAssociateId());
-//    }
+
+    private RequisitionResponseDTO updateRequisition(RequisitionRequestDTO requestDTO) throws Exception {
+
+        Optional<Requisition> optionalRequisition = requisitionRepository.findById(requestDTO.getRequisitionId());
+
+        if (optionalRequisition.isEmpty()) {
+            throw new RequisitionException("Requisition not exist!", HttpStatus.NOT_FOUND);
+        }
+
+        Requisition requisition = optionalRequisition.get();
+
+        requisition.setStatusIndicator(StatusIndicator.POSTERGADO);
+        requisition.setDevolutionDate(LocalDate.now().plusWeeks(1L));
+
+        requisitionRepository.save(requisition);
+
+        return RequisitionResponseDTOBuilder.from(requisition);
+    }
+
+    private RequisitionResponseDTO closeRequisition(RequisitionRequestDTO requestDTO) throws Exception {
+
+        Optional<Requisition> optionalRequisition = requisitionRepository.findById(requestDTO.getRequisitionId());
+
+        if (optionalRequisition.isEmpty()) {
+            throw new RequisitionException("Requisition not exist!", HttpStatus.NOT_FOUND);
+        }
+
+        Requisition requisition = optionalRequisition.get();
+
+        requisition.setStatusIndicator(StatusIndicator.FINALIZADO);
+        requisition.setDevolutionDate(null);
+
+        requisitionRepository.save(requisition);
+
+        return RequisitionResponseDTOBuilder.from(requisition);
+    }
 }
