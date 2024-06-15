@@ -1,11 +1,9 @@
 package com.raphael.Library.entities.books;
 
-import com.raphael.Library.indicator.GenderIndicator;
 import com.raphael.Library.entities.Requisition;
+import com.raphael.Library.indicator.GenderIndicator;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,8 +15,8 @@ public class Book {
 
     @Id
     @Column(name = "book_id")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID bookId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long bookId;
 
     @Column(name = "name", nullable = false)
     private String name;

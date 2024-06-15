@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,8 +15,8 @@ public class Associate {
 
     @Id
     @Column(name = "associate_id")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID associateId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long associateId;
 
     @Column(name = "name", nullable = false)
     private String name;

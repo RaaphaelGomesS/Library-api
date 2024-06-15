@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/associate")
@@ -19,7 +17,7 @@ public class AssociateController {
     private final AssociateService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Associate> getAssociate(@PathVariable UUID id) throws AssociateException {
+    public ResponseEntity<Associate> getAssociate(@PathVariable long id) throws AssociateException {
 
         Associate associate = service.getById(id);
 
@@ -36,7 +34,7 @@ public class AssociateController {
     }
 
     @PutMapping("/alter/{id}")
-    public ResponseEntity<Associate> updateAssociate(@PathVariable UUID id, @RequestBody AssociateDTO associateDTO) throws AssociateException {
+    public ResponseEntity<Associate> updateAssociate(@PathVariable long id, @RequestBody AssociateDTO associateDTO) throws AssociateException {
 
         Associate associate = service.updateAssociate(id, associateDTO);
 
@@ -45,7 +43,7 @@ public class AssociateController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAssociate(@PathVariable UUID id) throws AssociateException {
+    public ResponseEntity<Void> deleteAssociate(@PathVariable long id) throws AssociateException {
 
         service.deleteAssociate(id);
 

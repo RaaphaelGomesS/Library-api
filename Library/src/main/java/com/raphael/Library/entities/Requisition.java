@@ -7,7 +7,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,8 +18,8 @@ public class Requisition {
 
     @Id
     @Column(name = "requisition_id")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID requisitionId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long requisitionId;
 
     @ManyToOne
     @JoinColumn(name = "associate_id")

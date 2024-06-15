@@ -3,7 +3,6 @@ package com.raphael.Library.dto;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -12,9 +11,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RequisitionRequestDTO {
 
-    private UUID bookId;
+    private long bookId;
 
-    private UUID associateId;
+    private long associateId;
 
     private String action;
 

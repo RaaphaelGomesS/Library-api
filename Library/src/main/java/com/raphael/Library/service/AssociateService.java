@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +33,7 @@ public class AssociateService {
     }
 
 
-    public Associate updateAssociate(UUID associateId, AssociateDTO associateDTO) throws AssociateException {
+    public Associate updateAssociate(long associateId, AssociateDTO associateDTO) throws AssociateException {
 
         Associate associate = getById(associateId);
 
@@ -50,7 +49,7 @@ public class AssociateService {
         return associate;
     }
 
-    public void deleteAssociate(UUID associateId) throws AssociateException {
+    public void deleteAssociate(long associateId) throws AssociateException {
 
         Associate associate = getById(associateId);
 
@@ -69,7 +68,7 @@ public class AssociateService {
         }
     }
 
-    public Associate getById(UUID associateId) throws AssociateException {
+    public Associate getById(long associateId) throws AssociateException {
 
         Optional<Associate> associate = associateRepository.findById(associateId);
 

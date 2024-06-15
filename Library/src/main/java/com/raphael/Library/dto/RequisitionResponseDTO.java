@@ -4,7 +4,6 @@ import com.raphael.Library.indicator.StatusIndicator;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,7 +13,7 @@ import java.util.UUID;
 public class RequisitionResponseDTO {
 
 
-    private UUID requisitionId;
+    private long requisitionId;
 
     private StatusIndicator statusIndicator;
 

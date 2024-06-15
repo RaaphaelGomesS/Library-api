@@ -6,8 +6,6 @@ import com.raphael.Library.dto.RequisitionResponseDTO;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.entities.Requisition;
 import com.raphael.Library.entities.books.Book;
-import com.raphael.Library.exception.AssociateException;
-import com.raphael.Library.exception.BookException;
 import com.raphael.Library.exception.RequisitionException;
 import com.raphael.Library.indicator.StatusIndicator;
 import com.raphael.Library.repository.RequisitionRepository;
@@ -16,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor

@@ -8,11 +8,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 @EnableJpaRepositories
-public interface AuthorRepository extends JpaRepository<Author, UUID> {
+public interface AuthorRepository extends JpaRepository<Author, Long> {
 
     @Query("SELECT a FROM author a WHERE a.name = :name")
     Optional<Author> findByName(@Param("name") String name);

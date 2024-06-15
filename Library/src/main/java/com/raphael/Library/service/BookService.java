@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -68,7 +67,7 @@ public class BookService {
         publisherRepository.save(publisher);
     }
 
-    public Book getBookById(UUID bookId) throws BookException {
+    public Book getBookById(long bookId) throws BookException {
 
         Optional<Book> foundedBook = bookRepository.findById(bookId);
 
