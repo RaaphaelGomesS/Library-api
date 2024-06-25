@@ -64,7 +64,6 @@ public class AssociateService {
         Associate associate = getById(associateId);
 
         associateRepository.delete(associate);
-
     }
 
     public Associate getById(long associateId) throws AssociateException {
