@@ -1,6 +1,6 @@
 package com.raphael.Library.controller;
 
-import com.raphael.Library.dto.AssociateDTO;
+import com.raphael.Library.dto.AssociateRequestDTO;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.service.AssociateService;
@@ -26,17 +26,17 @@ public class AssociateController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Associate> createAssociate(@RequestBody AssociateDTO associateDTO) throws AssociateException {
+    public ResponseEntity<Associate> createAssociate(@RequestBody AssociateRequestDTO associateRequestDTO) throws AssociateException {
 
-        Associate associate = service.createAssociate(associateDTO);
+        Associate associate = service.createAssociate(associateRequestDTO);
 
         return ResponseEntity.ok(associate);
     }
 
     @PutMapping("/alter/{id}")
-    public ResponseEntity<Associate> updateAssociate(@PathVariable long id, @RequestBody AssociateDTO associateDTO) throws AssociateException {
+    public ResponseEntity<Associate> updateAssociate(@PathVariable long id, @RequestBody AssociateRequestDTO associateRequestDTO) throws AssociateException {
 
-        Associate associate = service.updateAssociate(id, associateDTO);
+        Associate associate = service.updateAssociate(id, associateRequestDTO);
 
         return ResponseEntity.ok(associate);
 

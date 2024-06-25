@@ -21,10 +21,14 @@ public class ValidationUtils {
         }
     }
 
-    public static void verifyNumber(String number) throws AssociateException {
+    public static void verifyPassword(String password) throws AssociateException {
 
-        if (number.length() != 11) {
-            throw new AssociateException("O número é inválido, deve ter 11 caracteres com o DDD", HttpStatus.CONFLICT);
+        Pattern pattern = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$", Pattern.CASE_INSENSITIVE);
+
+        Matcher matcher = pattern.matcher(password);
+
+        if (!matcher.matches()) {
+            throw new AssociateException("A senha deve ter pelo menos uma letra maiuscula, um número, um caracter especial e estar entre 8 e 15 caracteres!", HttpStatus.CONFLICT);
         }
     }
 

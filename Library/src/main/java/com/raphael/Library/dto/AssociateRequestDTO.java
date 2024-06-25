@@ -7,11 +7,13 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AssociateDTO {
+public class AssociateRequestDTO {
 
     private String name;
 
     private String email;
 
-    private String phone;
+    private String user;
+
+    private String password;
 }

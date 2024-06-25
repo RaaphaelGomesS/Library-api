@@ -1,7 +1,7 @@
 package com.raphael.Library.service;
 
 import com.raphael.Library.builder.AssociateBuilder;
-import com.raphael.Library.dto.AssociateDTO;
+import com.raphael.Library.dto.AssociateRequestDTO;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.entities.Requisition;
 import com.raphael.Library.exception.AssociateException;
@@ -19,13 +19,13 @@ public class AssociateService {
 
     private final AssociateRepository associateRepository;
 
-    public Associate createAssociate(AssociateDTO associateDTO) throws AssociateException {
+    public Associate createAssociate(AssociateRequestDTO associateRequestDTO) throws AssociateException {
 
-        verifyAlreadyExist(associateDTO);
+        verifyAlreadyExist(associateRequestDTO);
 
-        ValidationUtils.verifyNumber(associateDTO.getPhone());
+        ValidationUtils.verifyPassword(associateRequestDTO.getPassword());
 
-        Associate associate = AssociateBuilder.from(associateDTO);
+        Associate associate = AssociateBuilder.from(associateRequestDTO);
 
         associateRepository.save(associate);
 
@@ -33,16 +33,17 @@ public class AssociateService {
     }
 
 
-    public Associate updateAssociate(long associateId, AssociateDTO associateDTO) throws AssociateException {
+    public Associate updateAssociate(long associateId, AssociateRequestDTO associateRequestDTO) throws AssociateException {
 
         Associate associate = getById(associateId);
 
-        ValidationUtils.verifyEmail(associateDTO.getEmail());
-        ValidationUtils.verifyNumber(associateDTO.getPhone());
+        ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
+        ValidationUtils.verifyPassword(associateRequestDTO.getPassword());
 
-        associate.setName(associateDTO.getName());
-        associate.setEmail(associateDTO.getEmail());
-        associate.setPhone(associateDTO.getPhone());
+        associate.setName(associateRequestDTO.getName());
+        associate.setUser(associateRequestDTO.getUser());
+        associate.setEmail(associateRequestDTO.getEmail());
+        associate.setPassword(associateRequestDTO.getPassword());
 
         associateRepository.save(associate);
 
@@ -57,11 +58,11 @@ public class AssociateService {
 
     }
 
-    private void verifyAlreadyExist(AssociateDTO associateDTO) throws AssociateException {
+    private void verifyAlreadyExist(AssociateRequestDTO associateRequestDTO) throws AssociateException {
 
-        ValidationUtils.verifyEmail(associateDTO.getEmail());
+        ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
 
-        Optional<Associate> optionalAssociate = associateRepository.findByEmail(associateDTO.getEmail());
+        Optional<Associate> optionalAssociate = associateRepository.findByEmail(associateRequestDTO.getEmail());
 
         if (optionalAssociate.isPresent()) {
             throw new AssociateException("O Associado já está registrado!", HttpStatus.CONFLICT);

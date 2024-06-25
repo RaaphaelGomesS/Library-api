@@ -24,9 +24,20 @@ public class Associate {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "phone")
-    private String phone;
+    @Column(name = "user", nullable = false, unique = true)
+    private String user;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private RoleIndicator role;
 
     @OneToMany(mappedBy = "associate")
     private List<Requisition> booksInPossession;
+
+    public enum RoleIndicator {
+        ADMIN, DEFAULT
+    }
 }
