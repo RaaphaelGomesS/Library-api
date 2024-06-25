@@ -13,6 +13,6 @@ import java.util.Optional;
 @EnableJpaRepositories
 public interface AssociateRepository extends JpaRepository<Associate, Long> {
 
-    @Query("SELECT a FROM associate a WHERE a.email = :email")
-    Optional<Associate> findByEmail(@Param("email") String email);
+    @Query("SELECT a FROM associate a WHERE a.user = :username")
+    Optional<Associate> findByUsername(@Param("username") String username);
 }

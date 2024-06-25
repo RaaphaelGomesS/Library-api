@@ -24,8 +24,8 @@ public class Associate {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "user", nullable = false, unique = true)
-    private String user;
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
 
     @Column(name = "password", nullable = false)
     private String password;

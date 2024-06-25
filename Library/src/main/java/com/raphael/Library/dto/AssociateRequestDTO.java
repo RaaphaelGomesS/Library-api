@@ -13,7 +13,7 @@ public class AssociateRequestDTO {
 
     private String email;
 
-    private String user;
+    private String username;
 
     private String password;
 }

@@ -21,8 +21,13 @@ public class AssociateService {
 
     public Associate createAssociate(AssociateRequestDTO associateRequestDTO) throws AssociateException {
 
-        verifyAlreadyExist(associateRequestDTO);
+        Optional<Associate> optionalAssociate = associateRepository.findByUsername(associateRequestDTO.getUsername());
 
+        if (optionalAssociate.isPresent()) {
+            throw new AssociateException("O username já está registrado!", HttpStatus.CONFLICT);
+        }
+
+        ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
         ValidationUtils.verifyPassword(associateRequestDTO.getPassword());
 
         Associate associate = AssociateBuilder.from(associateRequestDTO);
@@ -33,16 +38,20 @@ public class AssociateService {
     }
 
 
-    public Associate updateAssociate(long associateId, AssociateRequestDTO associateRequestDTO) throws AssociateException {
+    public Associate updateAssociate(AssociateRequestDTO associateRequestDTO) throws AssociateException {
 
-        Associate associate = getById(associateId);
+        Associate associate = associateRepository.findByUsername(associateRequestDTO.getUsername()).orElse(null);
+
+        if (associate == null) {
+            throw new AssociateException("O username nâo foi encotrado!", HttpStatus.NOT_FOUND);
+        }
 
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
         ValidationUtils.verifyPassword(associateRequestDTO.getPassword());
 
         associate.setName(associateRequestDTO.getName());
-        associate.setUser(associateRequestDTO.getUser());
         associate.setEmail(associateRequestDTO.getEmail());
+        associate.setUsername(associateRequestDTO.getUsername());
         associate.setPassword(associateRequestDTO.getPassword());
 
         associateRepository.save(associate);
@@ -56,17 +65,6 @@ public class AssociateService {
 
         associateRepository.delete(associate);
 
-    }
-
-    private void verifyAlreadyExist(AssociateRequestDTO associateRequestDTO) throws AssociateException {
-
-        ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
-
-        Optional<Associate> optionalAssociate = associateRepository.findByEmail(associateRequestDTO.getEmail());
-
-        if (optionalAssociate.isPresent()) {
-            throw new AssociateException("O Associado já está registrado!", HttpStatus.CONFLICT);
-        }
     }
 
     public Associate getById(long associateId) throws AssociateException {
