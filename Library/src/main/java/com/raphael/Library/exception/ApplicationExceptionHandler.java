@@ -1,6 +1,7 @@
 package com.raphael.Library.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,15 +34,6 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
         log.info("error: " + e.getMessage());
 
         RequisitionException exception = new RequisitionException(e.getMessage(), e.getStatus());
-
-        return new ResponseEntity(exception, e.getStatus());
-    }
-
-    @ExceptionHandler(UserException.class)
-    public ResponseEntity handlerUserException(UserException e) {
-        log.info("error: " + e.getMessage());
-
-        UserException exception = new UserException(e.getMessage(), e.getStatus());
 
         return new ResponseEntity(exception, e.getStatus());
     }
