@@ -9,6 +9,7 @@ import com.raphael.Library.repository.AssociateRepository;
 import com.raphael.Library.utils.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,6 +19,8 @@ import java.util.Optional;
 public class AssociateService {
 
     private final AssociateRepository associateRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     public Associate createAssociate(AssociateRequestDTO associateRequestDTO) throws AssociateException {
 
@@ -30,7 +33,7 @@ public class AssociateService {
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
         ValidationUtils.verifyPassword(associateRequestDTO.getPassword());
 
-        Associate associate = AssociateBuilder.from(associateRequestDTO);
+        Associate associate = AssociateBuilder.from(associateRequestDTO, passwordEncoder);
 
         associateRepository.save(associate);
 
@@ -52,7 +55,7 @@ public class AssociateService {
         associate.setName(associateRequestDTO.getName());
         associate.setEmail(associateRequestDTO.getEmail());
         associate.setUsername(associateRequestDTO.getUsername());
-        associate.setPassword(associateRequestDTO.getPassword());
+        associate.setPassword(passwordEncoder.encode(associateRequestDTO.getPassword()));
 
         associateRepository.save(associate);
 
