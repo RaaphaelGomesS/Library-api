@@ -1,33 +1,28 @@
 package com.raphael.Library.controller;
 
 import com.raphael.Library.dto.LoginRequest;
-import com.raphael.Library.dto.Loginresponse;
-import com.raphael.Library.entities.Associate;
-import com.raphael.Library.repository.AssociateRepository;
+import com.raphael.Library.dto.LoginResponse;
+import com.raphael.Library.exception.AssociateException;
+import com.raphael.Library.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/login")
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final JwtEncoder jwtEncoder;
-
-    private final AssociateRepository associateRepository;
+    private final LoginService loginService;
 
     @PostMapping("/")
-    public ResponseEntity<List<Loginresponse>> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws AssociateException {
 
-        Optional<Associate> associate = associateRepository.findByUsername(loginRequest.username());
+        LoginResponse loginResponse = loginService.getLoginToken(loginRequest);
 
+        return ResponseEntity.ok(loginResponse);
     }
 }
