@@ -7,6 +7,8 @@ import com.raphael.Library.repository.BookRepository;
 import com.raphael.Library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +25,7 @@ public class BookController {
     //admin
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('role_ADMIN')")
     public ResponseEntity<Book> createBook(@RequestBody BookDTO bookDTO) throws BookException {
 
         Book book = bookService.createBook(bookDTO);
@@ -33,7 +36,7 @@ public class BookController {
     //private
 
     @GetMapping("/")
-    public ResponseEntity<List<Book>> getAllBooks() {
+    public ResponseEntity<List<Book>> getAllBooks(JwtAuthenticationToken token) {
 
         List<Book> books = bookRepository.findAll();
 

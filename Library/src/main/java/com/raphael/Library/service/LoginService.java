@@ -37,7 +37,7 @@ public class LoginService {
 
         isLoginCorrect(loginRequest, associate);
 
-        return generateToken(associate.getAssociateId());
+        return generateToken(associate.getAssociateId(), associate.getRole().name());
     }
 
     private void isLoginCorrect(LoginRequest loginRequest, Associate associate) throws AssociateException {
@@ -47,7 +47,7 @@ public class LoginService {
         }
     }
 
-    private LoginResponse generateToken(Long userId) {
+    private LoginResponse generateToken(Long userId, String role) {
 
         JwtClaimsSet params = JwtClaimsSet
                 .builder()
@@ -55,6 +55,7 @@ public class LoginService {
                 .subject(userId.toString())
                 .issuedAt(Instant.now())
                 .expiresAt(Instant.now().plusSeconds(EXPIRES_IN))
+                .claim("role", role)
                 .build();
 
         String jwtToken = jwtEncoder.encode(JwtEncoderParameters.from(params)).getTokenValue();
