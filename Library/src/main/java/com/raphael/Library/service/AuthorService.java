@@ -15,12 +15,16 @@ public class AuthorService {
 
     private final AuthorRepository repository;
 
-    public Author createAuthorByBook(BookDTO bookDTO) {
+    public Author createOrGetAuthor(BookDTO bookDTO) {
 
         Optional<Author> author = repository.findByName(bookDTO.getAuthorName());
 
         if (author.isEmpty()) {
-            Author newAuthor = Author.builder().name(bookDTO.getAuthorName()).books(new ArrayList<>()).build();
+            Author newAuthor = Author
+                    .builder()
+                    .name(bookDTO.getAuthorName())
+                    .books(new ArrayList<>())
+                    .build();
 
             repository.save(newAuthor);
 

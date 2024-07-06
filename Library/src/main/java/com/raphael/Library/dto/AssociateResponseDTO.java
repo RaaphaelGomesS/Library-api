@@ -18,9 +18,7 @@ public class AssociateResponseDTO {
 
     private String email;
 
-    private String user;
-
-    private String role;
+    private String username;
 
     private List<Requisition> booksInPossession;
 }

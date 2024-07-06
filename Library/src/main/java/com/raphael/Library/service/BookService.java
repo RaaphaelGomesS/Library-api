@@ -34,12 +34,17 @@ public class BookService {
 
         verifyIfAlreadyExist(bookDTO);
 
-        Book book = BookBuilder.from(bookDTO);
+        Author author = authorService.createOrGetAuthor(bookDTO);
+        Publisher publisher = publisherService.createOrGetPublisher(bookDTO);
 
-        Author author = authorService.createAuthorByBook(bookDTO);
-        Publisher publisher = publisherService.createPublisherByBook(bookDTO);
+        Book book = BookBuilder.from(bookDTO, author, publisher);
 
-        addBooks(author, publisher, book);
+        author.getBooks().add(book);
+        publisher.getBooks().add(book);
+
+        bookRepository.save(book);
+        authorRepository.save(author);
+        publisherRepository.save(publisher);
 
         return book;
     }
@@ -89,25 +94,12 @@ public class BookService {
         }
     }
 
-    private void addBooks(Author author, Publisher publisher, Book book) {
-
-        book.setAuthor(author);
-        book.setPublisher(publisher);
-
-        author.getBooks().add(book);
-        publisher.getBooks().add(book);
-
-        bookRepository.save(book);
-        authorRepository.save(author);
-        publisherRepository.save(publisher);
-    }
-
     public Book getBookById(long bookId) throws BookException {
 
         Optional<Book> foundedBook = bookRepository.findById(bookId);
 
         if (foundedBook.isEmpty()) {
-            throw new BookException("Não foi encontrado um livro com esse ID!", HttpStatus.NOT_FOUND);
+            throw new BookException("Book not found!", HttpStatus.NOT_FOUND);
         }
 
         return foundedBook.get();

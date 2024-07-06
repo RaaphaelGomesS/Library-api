@@ -1,7 +1,9 @@
 package com.raphael.Library.service;
 
 import com.raphael.Library.builder.AssociateBuilder;
+import com.raphael.Library.builder.AssociateResponseDTOBuilder;
 import com.raphael.Library.dto.AssociateRequestDTO;
+import com.raphael.Library.dto.AssociateResponseDTO;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.entities.Requisition;
 import com.raphael.Library.exception.AssociateException;
@@ -22,7 +24,7 @@ public class AssociateService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public Associate createAssociate(AssociateRequestDTO associateRequestDTO) throws AssociateException {
+    public AssociateResponseDTO createAssociate(AssociateRequestDTO associateRequestDTO) throws AssociateException {
 
         Optional<Associate> optionalAssociate = associateRepository.findByUsername(associateRequestDTO.getUsername());
 
@@ -37,11 +39,11 @@ public class AssociateService {
 
         associateRepository.save(associate);
 
-        return associate;
+        return AssociateResponseDTOBuilder.from(associate);
     }
 
 
-    public Associate updateAssociate(AssociateRequestDTO associateRequestDTO) throws AssociateException {
+    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO) throws AssociateException {
 
         Associate associate = associateRepository.findByUsername(associateRequestDTO.getUsername()).orElse(null);
 
@@ -59,7 +61,7 @@ public class AssociateService {
 
         associateRepository.save(associate);
 
-        return associate;
+        return AssociateResponseDTOBuilder.from(associate);
     }
 
     public void deleteAssociate(long associateId) throws AssociateException {

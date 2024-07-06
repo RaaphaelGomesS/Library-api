@@ -1,6 +1,7 @@
 package com.raphael.Library.controller;
 
 import com.raphael.Library.dto.AssociateRequestDTO;
+import com.raphael.Library.dto.AssociateResponseDTO;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.repository.AssociateRepository;
@@ -21,6 +22,8 @@ public class AssociateController {
 
     private final AssociateRepository repository;
 
+    //admin
+
     @GetMapping("/")
     public ResponseEntity<List<Associate>> getAllAssociate() {
 
@@ -29,6 +32,8 @@ public class AssociateController {
         return ResponseEntity.ok(associate);
 
     }
+
+    //admin e private
 
     @GetMapping("/{id}")
     public ResponseEntity<Associate> getAssociate(@PathVariable long id) throws AssociateException {
@@ -39,18 +44,10 @@ public class AssociateController {
 
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Associate> createAssociate(@RequestBody AssociateRequestDTO associateRequestDTO) throws AssociateException {
-
-        Associate associate = service.createAssociate(associateRequestDTO);
-
-        return ResponseEntity.ok(associate);
-    }
-
     @PutMapping("/alter")
-    public ResponseEntity<Associate> updateAssociate(@RequestBody AssociateRequestDTO associateRequestDTO) throws AssociateException {
+    public ResponseEntity<AssociateResponseDTO> updateAssociate(@RequestBody AssociateRequestDTO associateRequestDTO) throws AssociateException {
 
-        Associate associate = service.updateAssociate(associateRequestDTO);
+        AssociateResponseDTO associate = service.updateAssociate(associateRequestDTO);
 
         return ResponseEntity.ok(associate);
 

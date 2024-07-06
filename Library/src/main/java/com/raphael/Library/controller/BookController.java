@@ -20,6 +20,8 @@ public class BookController {
 
     private final BookRepository bookRepository;
 
+    //admin
+
     @PostMapping("/")
     public ResponseEntity<Book> createBook(@RequestBody BookDTO bookDTO) throws BookException {
 
@@ -27,6 +29,8 @@ public class BookController {
 
         return ResponseEntity.ok(book);
     }
+
+    //private
 
     @GetMapping("/")
     public ResponseEntity<List<Book>> getAllBooks() {
