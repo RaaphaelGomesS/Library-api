@@ -18,8 +18,6 @@ public class RequisitionController {
 
     private RequisitionService requisitionService;
 
-    //private
-
     @PostMapping("/")
     public ResponseEntity<RequisitionResponseDTO> makeRequisition(@RequestBody RequisitionRequestDTO requestDTO, JwtAuthenticationToken token) throws Exception {
 
