@@ -9,8 +9,10 @@ import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.exception.RequisitionException;
 import com.raphael.Library.indicator.StatusIndicator;
 import com.raphael.Library.repository.RequisitionRepository;
+import com.raphael.Library.utils.ValidationUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,7 +28,11 @@ public class RequisitionService {
 
     private final AssociateService associateService;
 
-    public RequisitionResponseDTO makeRequisitionByAction(RequisitionRequestDTO requestDTO) throws Exception {
+    public RequisitionResponseDTO makeRequisitionByAction(RequisitionRequestDTO requestDTO, JwtAuthenticationToken token) throws Exception {
+
+        Associate associate = associateService.getById(requestDTO.getAssociateId());
+
+        ValidationUtils.verifyHasPermission(token, associate);
 
         StatusIndicator statusIndicator = StatusIndicator.getValueByAction(requestDTO.getAction());
 
@@ -34,26 +40,27 @@ public class RequisitionService {
             throw new RequisitionException("Não é possivel criar uma requisição para essa operação!", HttpStatus.CONFLICT);
         }
 
+        Requisition requisition = requisitionRepository.findById(requestDTO.getRequisitionId())
+                .orElseThrow(() -> new RequisitionException("Requisition not exist!", HttpStatus.NOT_FOUND));
+
         return switch (statusIndicator) {
-            case ABERTO -> createRequisition(requestDTO);
-            case POSTERGADO -> updateRequisition(requestDTO);
-            case FINALIZADO -> closeRequisition(requestDTO);
+            case ABERTO -> createRequisition(requestDTO, associate);
+            case POSTERGADO -> updateRequisition(requisition);
+            case FINALIZADO -> closeRequisition(requisition);
         };
     }
 
-    private RequisitionResponseDTO createRequisition(RequisitionRequestDTO requestDTO) throws Exception {
+    private RequisitionResponseDTO createRequisition(RequisitionRequestDTO requestDTO, Associate associate) throws Exception {
 
         Book book = bookService.getBookById(requestDTO.getBookId());
-        Associate associate = associateService.getById(requestDTO.getAssociateId());
 
         Requisition requisition = Requisition
                 .builder()
                 .book(book)
                 .associate(associate)
                 .statusIndicator(StatusIndicator.ABERTO)
+                .devolutionDate(LocalDate.now().plusWeeks(1L))
                 .build();
-
-        requisition.setDevolutionDate(LocalDate.now().plusWeeks(1L));
 
         requisitionRepository.save(requisition);
 
@@ -63,15 +70,7 @@ public class RequisitionService {
     }
 
 
-    private RequisitionResponseDTO updateRequisition(RequisitionRequestDTO requestDTO) throws Exception {
-
-        Optional<Requisition> optionalRequisition = requisitionRepository.findById(requestDTO.getRequisitionId());
-
-        if (optionalRequisition.isEmpty()) {
-            throw new RequisitionException("Requisition not exist!", HttpStatus.NOT_FOUND);
-        }
-
-        Requisition requisition = optionalRequisition.get();
+    private RequisitionResponseDTO updateRequisition(Requisition requisition) {
 
         requisition.setStatusIndicator(StatusIndicator.POSTERGADO);
         requisition.setDevolutionDate(LocalDate.now().plusWeeks(1L));
@@ -81,15 +80,7 @@ public class RequisitionService {
         return RequisitionResponseDTOBuilder.from(requisition);
     }
 
-    private RequisitionResponseDTO closeRequisition(RequisitionRequestDTO requestDTO) throws Exception {
-
-        Optional<Requisition> optionalRequisition = requisitionRepository.findById(requestDTO.getRequisitionId());
-
-        if (optionalRequisition.isEmpty()) {
-            throw new RequisitionException("Requisition not exist!", HttpStatus.NOT_FOUND);
-        }
-
-        Requisition requisition = optionalRequisition.get();
+    private RequisitionResponseDTO closeRequisition(Requisition requisition) {
 
         requisition.setStatusIndicator(StatusIndicator.FINALIZADO);
         requisition.setDevolutionDate(null);

@@ -21,7 +21,7 @@ public class RequisitionController {
     @PostMapping("/")
     public ResponseEntity<RequisitionResponseDTO> makeRequisition(@RequestBody RequisitionRequestDTO requestDTO, JwtAuthenticationToken token) throws Exception {
 
-        RequisitionResponseDTO responseDTO = requisitionService.makeRequisitionByAction(requestDTO);
+        RequisitionResponseDTO responseDTO = requisitionService.makeRequisitionByAction(requestDTO, token);
 
         return ResponseEntity.ok(responseDTO);
     }
