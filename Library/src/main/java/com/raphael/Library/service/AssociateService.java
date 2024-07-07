@@ -29,7 +29,7 @@ public class AssociateService {
         Optional<Associate> optionalAssociate = associateRepository.findByUsername(associateRequestDTO.getUsername());
 
         if (optionalAssociate.isPresent()) {
-            throw new AssociateException("O username já está registrado!", HttpStatus.CONFLICT);
+            throw new AssociateException("The username is already registered!", HttpStatus.CONFLICT);
         }
 
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
@@ -48,7 +48,7 @@ public class AssociateService {
         Associate associate = associateRepository.findByUsername(associateRequestDTO.getUsername()).orElse(null);
 
         if (associate == null) {
-            throw new AssociateException("O username nâo foi encotrado!", HttpStatus.NOT_FOUND);
+            throw new AssociateException("Not found any associate with this username!", HttpStatus.NOT_FOUND);
         }
 
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
@@ -76,7 +76,7 @@ public class AssociateService {
         Optional<Associate> associate = associateRepository.findById(associateId);
 
         if (associate.isEmpty()) {
-            throw new AssociateException("Não existe nenhum associado com esse id!", HttpStatus.NOT_FOUND);
+            throw new AssociateException("Not found any associate with this id!", HttpStatus.NOT_FOUND);
         }
 
         return associate.get();

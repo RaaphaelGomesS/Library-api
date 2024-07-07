@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -37,7 +36,7 @@ public class RequisitionService {
         StatusIndicator statusIndicator = StatusIndicator.getValueByAction(requestDTO.getAction());
 
         if (statusIndicator == null) {
-            throw new RequisitionException("Não é possivel criar uma requisição para essa operação!", HttpStatus.CONFLICT);
+            throw new RequisitionException("Not is possible create a requisition for this action.", HttpStatus.CONFLICT);
         }
 
         Requisition requisition = requisitionRepository.findById(requestDTO.getRequisitionId())
