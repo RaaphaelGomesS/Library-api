@@ -1,6 +1,7 @@
 package com.raphael.Library.controller;
 
-import com.raphael.Library.dto.BookDTO;
+import com.raphael.Library.dto.BookRequestDTO;
+import com.raphael.Library.dto.GenderFilter;
 import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.exception.BookException;
 import com.raphael.Library.repository.BookRepository;
@@ -8,7 +9,6 @@ import com.raphael.Library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,15 +24,25 @@ public class BookController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('role_ADMIN')")
-    public ResponseEntity<Book> createBook(@RequestBody BookDTO bookDTO) throws BookException {
+    public ResponseEntity<Book> createBook(@RequestBody BookRequestDTO bookRequestDTO) throws BookException {
 
-        Book book = bookService.createBook(bookDTO);
+        Book book = bookService.createBook(bookRequestDTO);
 
         return ResponseEntity.ok(book);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Book>> getAllBooks(JwtAuthenticationToken token) {
+    public ResponseEntity<List<Book>> getAllBooks() {
+
+        List<Book> books = bookRepository.findAll();
+
+        return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Book>> getAllBooksByGender(@RequestBody GenderFilter filter) {
+
+
 
         List<Book> books = bookRepository.findAll();
 

@@ -1,6 +1,6 @@
 package com.raphael.Library.service;
 
-import com.raphael.Library.dto.BookDTO;
+import com.raphael.Library.dto.BookRequestDTO;
 import com.raphael.Library.entities.books.Publisher;
 import com.raphael.Library.repository.PublisherRepository;
 import lombok.AllArgsConstructor;
@@ -15,12 +15,12 @@ public class PublisherService {
 
     private final PublisherRepository repository;
 
-    public Publisher createOrGetPublisher(BookDTO bookDTO) {
+    public Publisher createOrGetPublisher(BookRequestDTO bookRequestDTO) {
 
-        Optional<Publisher> publisher = repository.findByName(bookDTO.getPublisherName());
+        Optional<Publisher> publisher = repository.findByName(bookRequestDTO.getPublisherName());
 
         if (publisher.isEmpty()) {
-            Publisher newPublisher = Publisher.builder().name(bookDTO.getPublisherName()).books(new ArrayList<>()).build();
+            Publisher newPublisher = Publisher.builder().name(bookRequestDTO.getPublisherName()).books(new ArrayList<>()).build();
 
             repository.save(newPublisher);
 

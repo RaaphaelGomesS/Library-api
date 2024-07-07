@@ -7,13 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookDTO {
-
-    private String bookName;
+public class GenderFilter {
 
     private String gender;
-
-    private String authorName;
-
-    private String publisherName;
 }

@@ -1,6 +1,6 @@
 package com.raphael.Library.service;
 
-import com.raphael.Library.dto.BookDTO;
+import com.raphael.Library.dto.BookRequestDTO;
 import com.raphael.Library.entities.books.Author;
 import com.raphael.Library.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +15,14 @@ public class AuthorService {
 
     private final AuthorRepository repository;
 
-    public Author createOrGetAuthor(BookDTO bookDTO) {
+    public Author createOrGetAuthor(BookRequestDTO bookRequestDTO) {
 
-        Optional<Author> author = repository.findByName(bookDTO.getAuthorName());
+        Optional<Author> author = repository.findByName(bookRequestDTO.getAuthorName());
 
         if (author.isEmpty()) {
             Author newAuthor = Author
                     .builder()
-                    .name(bookDTO.getAuthorName())
+                    .name(bookRequestDTO.getAuthorName())
                     .books(new ArrayList<>())
                     .build();
 

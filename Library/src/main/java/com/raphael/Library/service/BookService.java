@@ -1,7 +1,7 @@
 package com.raphael.Library.service;
 
 import com.raphael.Library.builder.BookBuilder;
-import com.raphael.Library.dto.BookDTO;
+import com.raphael.Library.dto.BookRequestDTO;
 import com.raphael.Library.entities.books.Author;
 import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.entities.books.Publisher;
@@ -30,14 +30,14 @@ public class BookService {
 
     private final PublisherService publisherService;
 
-    public Book createBook(BookDTO bookDTO) throws BookException {
+    public Book createBook(BookRequestDTO bookRequestDTO) throws BookException {
 
-        verifyIfAlreadyExist(bookDTO);
+        verifyIfAlreadyExist(bookRequestDTO);
 
-        Author author = authorService.createOrGetAuthor(bookDTO);
-        Publisher publisher = publisherService.createOrGetPublisher(bookDTO);
+        Author author = authorService.createOrGetAuthor(bookRequestDTO);
+        Publisher publisher = publisherService.createOrGetPublisher(bookRequestDTO);
 
-        Book book = BookBuilder.from(bookDTO, author, publisher);
+        Book book = BookBuilder.from(bookRequestDTO, author, publisher);
 
         author.getBooks().add(book);
         publisher.getBooks().add(book);
@@ -83,12 +83,12 @@ public class BookService {
         return books;
     }
 
-    private void verifyIfAlreadyExist(BookDTO bookDTO) throws BookException {
+    private void verifyIfAlreadyExist(BookRequestDTO bookRequestDTO) throws BookException {
 
-        Optional<Book> foundedBook = bookRepository.findByName(bookDTO.getBookName());
+        Optional<Book> foundedBook = bookRepository.findByName(bookRequestDTO.getBookName());
 
         if (foundedBook.isPresent()) {
-            if (foundedBook.get().getAuthor().getName().equalsIgnoreCase(bookDTO.getAuthorName())) {
+            if (foundedBook.get().getAuthor().getName().equalsIgnoreCase(bookRequestDTO.getAuthorName())) {
                 throw new BookException("Book already exist!", HttpStatus.CONFLICT);
             }
         }
