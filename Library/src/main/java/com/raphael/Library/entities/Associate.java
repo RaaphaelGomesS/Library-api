@@ -2,7 +2,11 @@ package com.raphael.Library.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -36,6 +40,14 @@ public class Associate {
 
     @OneToMany(mappedBy = "associate")
     private List<Requisition> booksInPossession;
+
+    @CreationTimestamp
+    @Column(name = "creation", updatable = false)
+    private Instant createDate;
+
+    @UpdateTimestamp
+    @Column(name = "update")
+    private Instant updateDate;
 
     public enum RoleIndicator {
         ADMIN, DEFAULT

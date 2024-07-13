@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -48,6 +48,18 @@ public class RequisitionService {
             case POSTERGADO -> updateRequisition(requisition);
             case FINALIZADO -> closeRequisition(requisition);
         };
+    }
+
+    public List<RequisitionResponseDTO> getRequisitionForAssociate(long associateId, JwtAuthenticationToken token) throws Exception {
+
+        Associate associate = associateService.getById(associateId);
+
+        ValidationUtils.verifyHasPermission(token, associate);
+
+        return associate.getBooksInPossession().stream()
+                .filter(requisition -> requisition.getStatusIndicator() != StatusIndicator.FINALIZADO)
+                .map(RequisitionResponseDTOBuilder::from)
+                .toList();
     }
 
     private RequisitionResponseDTO createRequisition(RequisitionRequestDTO requestDTO, Associate associate) throws Exception {
