@@ -51,9 +51,9 @@ public class RequisitionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<RequisitionResponseDTO>> getAllRequisitionFromAssociate(@RequestParam long associateId, JwtAuthenticationToken token) throws Exception {
+    public ResponseEntity<List<RequisitionResponseDTO>> getAllRequisitionFromAssociate(@PathVariable long id, JwtAuthenticationToken token) throws Exception {
 
-        List<RequisitionResponseDTO> responseDTOS = requisitionService.getRequisitionForAssociate(associateId, token);
+        List<RequisitionResponseDTO> responseDTOS = requisitionService.getRequisitionForAssociate(id, token);
 
         return ResponseEntity.ok(responseDTOS);
     }
