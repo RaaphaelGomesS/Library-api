@@ -1,7 +1,9 @@
 package com.raphael.Library.service;
 
 import com.raphael.Library.builder.BookBuilder;
+import com.raphael.Library.builder.BookResponseDTOBuilder;
 import com.raphael.Library.dto.BookRequestDTO;
+import com.raphael.Library.dto.BookResponseDTO;
 import com.raphael.Library.entities.books.Author;
 import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.entities.books.Publisher;
@@ -49,49 +51,36 @@ public class BookService {
         return book;
     }
 
-    public List<Book> getAllBooksByAuthor(String authorName) throws BookException {
+    public List<BookResponseDTO> getAllBooksByAuthor(String authorName) throws BookException {
 
-        Optional<Author> author = authorRepository.findByName(authorName);
+        Author author = authorRepository.findByName(authorName).orElseThrow(() -> new BookException("Author not found!", HttpStatus.NOT_FOUND));
 
-        if (author.isEmpty()) {
-            throw new BookException("Author not found!", HttpStatus.NOT_FOUND);
-        }
-
-        List<Book> books = author.get().getBooks();
-
-        if (books.isEmpty()) {
+        if (author.getBooks().isEmpty()) {
             throw new BookException("Author has no books!", HttpStatus.NOT_FOUND);
         }
 
-        return books;
+        return BookResponseDTOBuilder.fromList(author.getBooks());
     }
 
-    public List<Book> getAllBooksByPublisher(String publisherName) throws BookException {
+    public List<BookResponseDTO> getAllBooksByPublisher(String publisherName) throws BookException {
 
-        Optional<Publisher> publisher = publisherRepository.findByName(publisherName);
+        Publisher publisher = publisherRepository.findByName(publisherName).orElseThrow(() -> new BookException("Author not found!", HttpStatus.NOT_FOUND));
 
-        if (publisher.isEmpty()) {
-            throw new BookException("Publisher not found!", HttpStatus.NOT_FOUND);
-        }
-
-        List<Book> books = publisher.get().getBooks();
-
-        if (books.isEmpty()) {
+        if (publisher.getBooks().isEmpty()) {
             throw new BookException("Publisher has no books!", HttpStatus.NOT_FOUND);
         }
 
-        return books;
+        return BookResponseDTOBuilder.fromList(publisher.getBooks());
     }
 
     private void verifyIfAlreadyExist(BookRequestDTO bookRequestDTO) throws BookException {
 
         Optional<Book> foundedBook = bookRepository.findByName(bookRequestDTO.getBookName());
 
-        if (foundedBook.isPresent()) {
-            if (foundedBook.get().getAuthor().getName().equalsIgnoreCase(bookRequestDTO.getAuthorName())) {
+        if (foundedBook.isPresent() && foundedBook.get().getAuthor().getName().equalsIgnoreCase(bookRequestDTO.getAuthorName())) {
                 throw new BookException("Book already exist!", HttpStatus.CONFLICT);
             }
-        }
+
     }
 
     public Book getBookById(long bookId) throws BookException {

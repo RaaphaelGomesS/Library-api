@@ -19,7 +19,7 @@ public class ValidationUtils {
         Matcher matcher = pattern.matcher(email);
 
         if (!matcher.matches()) {
-            throw new AssociateException("O Email é inválido!", HttpStatus.CONFLICT);
+            throw new AssociateException("Email is invalid!", HttpStatus.CONFLICT);
         }
     }
 
@@ -30,19 +30,19 @@ public class ValidationUtils {
         Matcher matcher = pattern.matcher(password);
 
         if (!matcher.matches()) {
-            throw new AssociateException("A senha deve ter pelo menos uma letra maiuscula, um número, um caracter especial e estar entre 8 e 15 caracteres!", HttpStatus.CONFLICT);
+            throw new AssociateException("The password must have at least one upper letter, one number, one special character and be between 8 and 15 characters.", HttpStatus.CONFLICT);
         }
     }
 
     public static void verifyManyRequisitionHave(Requisition newReq) throws Exception {
 
         if (newReq.getAssociate().getBooksInPossession().size() >= 3) {
-            throw new AssociateException("O máximo de livros em posse são 3!", HttpStatus.CONFLICT);
+            throw new AssociateException("Already have the maximum number of books in your possession: 3", HttpStatus.CONFLICT);
         }
 
         for (Requisition requisition : newReq.getAssociate().getBooksInPossession()) {
             if (requisition.getBook().getBookId().equals(newReq.getBook().getBookId())) {
-                throw new RequisitionException("O Associado já está em posse desse livro!", HttpStatus.CONFLICT);
+                throw new RequisitionException("The book has already been requested.", HttpStatus.CONFLICT);
             }
         }
     }
@@ -50,7 +50,7 @@ public class ValidationUtils {
     public static void verifyHasPermission(JwtAuthenticationToken token, Associate associate) throws Exception {
 
         if (!(associate.getAssociateId().equals(Long.parseLong(token.getName()))) && !(associate.getRole().equals(Associate.RoleIndicator.ADMIN))) {
-            throw new RequisitionException("No have permission!", HttpStatus.UNAUTHORIZED);
+            throw new RequisitionException("Don't have permission!", HttpStatus.UNAUTHORIZED);
         }
     }
 }

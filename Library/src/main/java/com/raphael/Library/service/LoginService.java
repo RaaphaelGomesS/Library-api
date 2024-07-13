@@ -32,7 +32,7 @@ public class LoginService {
         Associate associate = associateRepository.findByUsername(loginRequest.username()).orElse(null);
 
         if (associate == null) {
-            throw new AssociateException("O username nâo foi encotrado!", HttpStatus.NOT_FOUND);
+            throw new AssociateException("Not found any associate with this username!", HttpStatus.NOT_FOUND);
         }
 
         isLoginCorrect(loginRequest, associate);
@@ -43,7 +43,7 @@ public class LoginService {
     private void isLoginCorrect(LoginRequest loginRequest, Associate associate) throws AssociateException {
 
         if (!(passwordEncoder.matches(loginRequest.password(), associate.getPassword()))) {
-            throw new AssociateException("A senha está errada!", HttpStatus.BAD_REQUEST);
+            throw new AssociateException("The password is wrong!", HttpStatus.BAD_REQUEST);
         }
     }
 

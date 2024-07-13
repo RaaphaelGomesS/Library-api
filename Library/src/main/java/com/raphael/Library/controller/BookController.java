@@ -1,6 +1,8 @@
 package com.raphael.Library.controller;
 
+import com.raphael.Library.builder.BookResponseDTOBuilder;
 import com.raphael.Library.dto.BookRequestDTO;
+import com.raphael.Library.dto.BookResponseDTO;
 import com.raphael.Library.dto.GenderFilter;
 import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.exception.BookException;
@@ -12,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/book")
@@ -32,35 +35,45 @@ public class BookController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Book>> getAllBooks() {
+    public ResponseEntity<List<BookResponseDTO>> getAllBooks() {
 
-        List<Book> books = bookRepository.findAll();
+        List<BookResponseDTO> books = bookRepository.findAll()
+                .stream()
+                .map(BookResponseDTOBuilder::from)
+                .collect(Collectors.toList());
 
         return ResponseEntity.ok(books);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Book>> getAllBooksByGender(@RequestBody GenderFilter filter) {
+    public ResponseEntity<List<BookResponseDTO>> getAllBooksByGender(@RequestBody GenderFilter filter) {
+
+        List<Book> books = bookRepository.findAll()
+                .stream()
+                .filter(book -> book.getGender().getNames().contains(filter.getGender()))
+                .toList();
+
+        List<BookResponseDTO> bookResponseDTOS = books
+                .stream()
+                .map(BookResponseDTOBuilder::from)
+                .collect(Collectors.toList());
 
 
-
-        List<Book> books = bookRepository.findAll();
-
-        return ResponseEntity.ok(books);
+        return ResponseEntity.ok(bookResponseDTOS);
     }
 
     @GetMapping("/author")
-    public ResponseEntity<List<Book>> getAllBooksFromAuthor(@RequestBody String authorName) throws BookException {
+    public ResponseEntity<List<BookResponseDTO>> getAllBooksFromAuthor(@RequestBody String authorName) throws BookException {
 
-        List<Book> book = bookService.getAllBooksByAuthor(authorName);
+        List<BookResponseDTO> book = bookService.getAllBooksByAuthor(authorName);
 
         return ResponseEntity.ok(book);
     }
 
     @GetMapping("/publisher")
-    public ResponseEntity<List<Book>> getAllBooksFromPublisher(@RequestBody String publisherName) throws BookException {
+    public ResponseEntity<List<BookResponseDTO>> getAllBooksFromPublisher(@RequestBody String publisherName) throws BookException {
 
-        List<Book> book = bookService.getAllBooksByPublisher(publisherName);
+        List<BookResponseDTO> book = bookService.getAllBooksByPublisher(publisherName);
 
         return ResponseEntity.ok(book);
     }
