@@ -12,6 +12,7 @@ import com.raphael.Library.utils.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -43,14 +44,11 @@ public class AssociateService {
     }
 
 
-    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO) throws AssociateException {
+    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO, JwtAuthenticationToken token) throws Exception {
 
-        Associate associate = associateRepository.findByUsername(associateRequestDTO.getUsername()).orElse(null);
+        Associate associate = associateRepository.findByUsername(associateRequestDTO.getUsername()).orElseThrow(() -> new AssociateException("Not found any associate with this username!", HttpStatus.NOT_FOUND));
 
-        if (associate == null) {
-            throw new AssociateException("Not found any associate with this username!", HttpStatus.NOT_FOUND);
-        }
-
+        ValidationUtils.verifyHasPermission(token, associate);
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
         ValidationUtils.verifyPassword(associateRequestDTO.getPassword());
 
@@ -64,22 +62,20 @@ public class AssociateService {
         return AssociateResponseDTOBuilder.from(associate);
     }
 
-    public void deleteAssociate(long associateId) throws AssociateException {
+    public void deleteAssociate(long associateId, JwtAuthenticationToken token) throws Exception {
 
-        Associate associate = getById(associateId);
+        Associate associate = getById(associateId, token);
 
         associateRepository.delete(associate);
     }
 
-    public Associate getById(long associateId) throws AssociateException {
+    public Associate getById(long associateId, JwtAuthenticationToken token) throws Exception {
 
-        Optional<Associate> associate = associateRepository.findById(associateId);
+        Associate associate = associateRepository.findById(associateId).orElseThrow(() -> new AssociateException("Not found any associate with this id!", HttpStatus.NOT_FOUND));
 
-        if (associate.isEmpty()) {
-            throw new AssociateException("Not found any associate with this id!", HttpStatus.NOT_FOUND);
-        }
+        ValidationUtils.verifyHasPermission(token, associate);
 
-        return associate.get();
+        return associate;
     }
 
     public void addRequisition(Requisition requisition) throws Exception {

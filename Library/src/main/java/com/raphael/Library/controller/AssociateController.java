@@ -3,7 +3,6 @@ package com.raphael.Library.controller;
 import com.raphael.Library.dto.AssociateRequestDTO;
 import com.raphael.Library.dto.AssociateResponseDTO;
 import com.raphael.Library.entities.Associate;
-import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.repository.AssociateRepository;
 import com.raphael.Library.service.AssociateService;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +23,6 @@ public class AssociateController {
 
     private final AssociateRepository repository;
 
-    //admin
-
     @GetMapping("/")
     @PreAuthorize("hasAuthority('role_ADMIN')")
     public ResponseEntity<List<Associate>> getAllAssociate() {
@@ -36,30 +33,28 @@ public class AssociateController {
 
     }
 
-    //admin e private
-
     @GetMapping("/{id}")
-    public ResponseEntity<Associate> getAssociate(@PathVariable long id, JwtAuthenticationToken token) throws AssociateException {
+    public ResponseEntity<Associate> getAssociate(@PathVariable long id, JwtAuthenticationToken token) throws Exception {
 
-        Associate associate = service.getById(id);
+        Associate associate = service.getById(id, token);
 
         return ResponseEntity.ok(associate);
 
     }
 
     @PutMapping("/alter")
-    public ResponseEntity<AssociateResponseDTO> updateAssociate(@RequestBody AssociateRequestDTO associateRequestDTO, JwtAuthenticationToken token) throws AssociateException {
+    public ResponseEntity<AssociateResponseDTO> updateAssociate(@RequestBody AssociateRequestDTO associateRequestDTO, JwtAuthenticationToken token) throws Exception {
 
-        AssociateResponseDTO associate = service.updateAssociate(associateRequestDTO);
+        AssociateResponseDTO associate = service.updateAssociate(associateRequestDTO, token);
 
         return ResponseEntity.ok(associate);
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAssociate(@PathVariable long id, JwtAuthenticationToken token) throws AssociateException {
+    public ResponseEntity<Void> deleteAssociate(@PathVariable long id, JwtAuthenticationToken token) throws Exception {
 
-        service.deleteAssociate(id);
+        service.deleteAssociate(id, token);
 
         return ResponseEntity.status(HttpStatus.OK).build();
 

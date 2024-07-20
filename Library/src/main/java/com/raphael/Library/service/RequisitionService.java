@@ -9,7 +9,6 @@ import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.exception.RequisitionException;
 import com.raphael.Library.indicator.StatusIndicator;
 import com.raphael.Library.repository.RequisitionRepository;
-import com.raphael.Library.utils.ValidationUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -30,9 +29,7 @@ public class RequisitionService {
 
     public RequisitionResponseDTO makeRequisitionByAction(RequisitionRequestDTO requestDTO, JwtAuthenticationToken token) throws Exception {
 
-        Associate associate = associateService.getById(requestDTO.getAssociateId());
-
-        ValidationUtils.verifyHasPermission(token, associate);
+        Associate associate = associateService.getById(requestDTO.getAssociateId(), token);
 
         StatusIndicator statusIndicator = StatusIndicator.getValueByAction(requestDTO.getAction());
 
@@ -52,9 +49,7 @@ public class RequisitionService {
 
     public List<RequisitionResponseDTO> getRequisitionForAssociate(long associateId, JwtAuthenticationToken token) throws Exception {
 
-        Associate associate = associateService.getById(associateId);
-
-        ValidationUtils.verifyHasPermission(token, associate);
+        Associate associate = associateService.getById(associateId, token);
 
         return associate.getBooksInPossession().stream()
                 .filter(requisition -> requisition.getStatusIndicator() != StatusIndicator.FINALIZADO)
