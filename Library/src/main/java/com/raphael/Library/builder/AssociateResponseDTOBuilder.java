@@ -2,9 +2,11 @@ package com.raphael.Library.builder;
 
 import com.raphael.Library.dto.AssociateResponseDTO;
 import com.raphael.Library.entities.Associate;
+import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 
+@UtilityClass
 public class AssociateResponseDTOBuilder {
     public static AssociateResponseDTO from(Associate associate) {
         return AssociateResponseDTO

@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -17,16 +16,20 @@ public class PublisherService {
 
     public Publisher createOrGetPublisher(BookRequestDTO bookRequestDTO) {
 
-        Optional<Publisher> publisher = repository.findByName(bookRequestDTO.getPublisherName());
+        Publisher publisher = repository.findByName(bookRequestDTO.getPublisherName()).orElse(null);
 
-        if (publisher.isEmpty()) {
-            Publisher newPublisher = Publisher.builder().name(bookRequestDTO.getPublisherName()).books(new ArrayList<>()).build();
+        if (publisher == null) {
+            Publisher newPublisher = Publisher
+                    .builder()
+                    .name(bookRequestDTO.getPublisherName())
+                    .books(new ArrayList<>())
+                    .build();
 
             repository.save(newPublisher);
 
             return newPublisher;
         } else {
-            return publisher.get();
+            return publisher;
         }
     }
 }

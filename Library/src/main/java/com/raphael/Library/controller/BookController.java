@@ -14,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/book")
@@ -40,24 +39,15 @@ public class BookController {
         List<BookResponseDTO> books = bookRepository.findAll()
                 .stream()
                 .map(BookResponseDTOBuilder::from)
-                .collect(Collectors.toList());
+                .toList();
 
         return ResponseEntity.ok(books);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<BookResponseDTO>> getAllBooksByGender(@RequestBody GenderFilter filter) {
+    public ResponseEntity<List<BookResponseDTO>> getAllBooksByGender(@RequestBody GenderFilter filter) throws BookException {
 
-        List<Book> books = bookRepository.findAll()
-                .stream()
-                .filter(book -> book.getGender().getNames().contains(filter.getGender()))
-                .toList();
-
-        List<BookResponseDTO> bookResponseDTOS = books
-                .stream()
-                .map(BookResponseDTOBuilder::from)
-                .collect(Collectors.toList());
-
+        List<BookResponseDTO> bookResponseDTOS = bookService.getBooksByGender(filter);
 
         return ResponseEntity.ok(bookResponseDTOS);
     }

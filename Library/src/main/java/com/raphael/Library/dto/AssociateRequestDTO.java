@@ -9,6 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 public class AssociateRequestDTO {
 
+    private long associateId;
+
     private String name;
 
     private String email;

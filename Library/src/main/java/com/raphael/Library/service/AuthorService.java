@@ -17,9 +17,9 @@ public class AuthorService {
 
     public Author createOrGetAuthor(BookRequestDTO bookRequestDTO) {
 
-        Optional<Author> author = repository.findByName(bookRequestDTO.getAuthorName());
+        Author author = repository.findByName(bookRequestDTO.getAuthorName()).orElse(null);
 
-        if (author.isEmpty()) {
+        if (author == null) {
             Author newAuthor = Author
                     .builder()
                     .name(bookRequestDTO.getAuthorName())
@@ -30,7 +30,7 @@ public class AuthorService {
 
             return newAuthor;
         } else {
-            return author.get();
+            return author;
         }
     }
 }

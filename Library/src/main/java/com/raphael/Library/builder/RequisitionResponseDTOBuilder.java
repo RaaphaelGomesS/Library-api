@@ -2,7 +2,9 @@ package com.raphael.Library.builder;
 
 import com.raphael.Library.dto.RequisitionResponseDTO;
 import com.raphael.Library.entities.Requisition;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class RequisitionResponseDTOBuilder {
 
     public static RequisitionResponseDTO from(Requisition requisition) {

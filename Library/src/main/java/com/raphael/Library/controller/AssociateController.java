@@ -42,7 +42,7 @@ public class AssociateController {
 
     }
 
-    @PutMapping("/alter")
+    @PutMapping("/update")
     public ResponseEntity<AssociateResponseDTO> updateAssociate(@RequestBody AssociateRequestDTO associateRequestDTO, JwtAuthenticationToken token) throws Exception {
 
         AssociateResponseDTO associate = service.updateAssociate(associateRequestDTO, token);

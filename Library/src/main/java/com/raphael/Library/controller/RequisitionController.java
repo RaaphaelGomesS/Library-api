@@ -1,17 +1,11 @@
 package com.raphael.Library.controller;
 
-import com.raphael.Library.builder.AssociateRequisitionDTOBuilder;
-import com.raphael.Library.dto.AssociateRequisitionDTO;
 import com.raphael.Library.dto.RequisitionPageDTO;
 import com.raphael.Library.dto.RequisitionRequestDTO;
 import com.raphael.Library.dto.RequisitionResponseDTO;
-import com.raphael.Library.entities.Associate;
 import com.raphael.Library.repository.AssociateRepository;
 import com.raphael.Library.service.RequisitionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -33,11 +27,7 @@ public class RequisitionController {
     public ResponseEntity<RequisitionPageDTO> getAllRequisitionCloseToExpire(@RequestParam(value = "page", defaultValue = "1") int page,
                                                                              @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
-        Page<Associate> associates = associateRepository.findAll(PageRequest.of(page, pageSize, Sort.Direction.DESC, "updateDate"));
-
-        List<AssociateRequisitionDTO> requisitionDTOS = associates.stream().map(AssociateRequisitionDTOBuilder::from).toList();
-
-        RequisitionPageDTO pageDTO = new RequisitionPageDTO(page, pageSize, associates.getTotalPages(), associates.getTotalElements(), requisitionDTOS);
+        RequisitionPageDTO pageDTO = requisitionService.getRequisitionCloseToExpire(page, pageSize);
 
         return ResponseEntity.ok(pageDTO);
     }

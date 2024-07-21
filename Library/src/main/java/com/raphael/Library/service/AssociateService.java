@@ -46,7 +46,8 @@ public class AssociateService {
 
     public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO, JwtAuthenticationToken token) throws Exception {
 
-        Associate associate = associateRepository.findByUsername(associateRequestDTO.getUsername()).orElseThrow(() -> new AssociateException("Not found any associate with this username!", HttpStatus.NOT_FOUND));
+        Associate associate = associateRepository.findById(associateRequestDTO.getAssociateId())
+                .orElseThrow(() -> new AssociateException("Associate not found!", HttpStatus.NOT_FOUND));
 
         ValidationUtils.verifyHasPermission(token, associate);
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
@@ -71,7 +72,8 @@ public class AssociateService {
 
     public Associate getById(long associateId, JwtAuthenticationToken token) throws Exception {
 
-        Associate associate = associateRepository.findById(associateId).orElseThrow(() -> new AssociateException("Not found any associate with this id!", HttpStatus.NOT_FOUND));
+        Associate associate = associateRepository.findById(associateId)
+                .orElseThrow(() -> new AssociateException("Associate not found!", HttpStatus.NOT_FOUND));
 
         ValidationUtils.verifyHasPermission(token, associate);
 
