@@ -53,7 +53,7 @@ public class BookController {
     }
 
     @GetMapping("/author")
-    public ResponseEntity<List<BookResponseDTO>> getAllBooksFromAuthor(@RequestBody String authorName) throws BookException {
+    public ResponseEntity<List<BookResponseDTO>> getAllBooksFromAuthor(@RequestParam("author") String authorName) throws BookException {
 
         List<BookResponseDTO> book = bookService.getAllBooksByAuthor(authorName);
 
@@ -61,7 +61,7 @@ public class BookController {
     }
 
     @GetMapping("/publisher")
-    public ResponseEntity<List<BookResponseDTO>> getAllBooksFromPublisher(@RequestBody String publisherName) throws BookException {
+    public ResponseEntity<List<BookResponseDTO>> getAllBooksFromPublisher(@RequestParam("publisher") String publisherName) throws BookException {
 
         List<BookResponseDTO> book = bookService.getAllBooksByPublisher(publisherName);
 
