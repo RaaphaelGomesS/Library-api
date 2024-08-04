@@ -4,11 +4,15 @@ import com.raphael.Library.dto.AssociateRequestDTO;
 import com.raphael.Library.dto.AssociateResponseDTO;
 import com.raphael.Library.dto.LoginRequest;
 import com.raphael.Library.dto.LoginResponse;
+import com.raphael.Library.entities.Associate;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.service.AssociateService;
 import com.raphael.Library.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +27,16 @@ public class LoginController {
 
     private final AssociateService service;
 
+    private final AuthenticationManager authenticationManager;
+
     @PostMapping("/")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws AssociateException {
 
-        LoginResponse loginResponse = loginService.getLoginToken(loginRequest);
+        Authentication usernamePassword = new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password());
+
+        Authentication auth = authenticationManager.authenticate(usernamePassword);
+
+        LoginResponse loginResponse = loginService.generateToken((Associate) auth.getPrincipal());
 
         return ResponseEntity.ok(loginResponse);
     }

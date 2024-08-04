@@ -1,4 +1,6 @@
 package com.raphael.Library.dto;
 
-public record LoginResponse(String accessToken, Long expiresIn) {
+import java.time.Instant;
+
+public record LoginResponse(String accessToken, Instant expiresIn) {
 }
