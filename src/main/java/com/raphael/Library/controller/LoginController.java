@@ -7,7 +7,7 @@ import com.raphael.Library.dto.LoginResponse;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.service.AssociateService;
-import com.raphael.Library.service.LoginService;
+import com.raphael.Library.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final LoginService loginService;
+    private final AuthenticationService authenticationService;
 
     private final AssociateService service;
 
@@ -36,7 +36,7 @@ public class LoginController {
 
         Authentication auth = authenticationManager.authenticate(usernamePassword);
 
-        LoginResponse loginResponse = loginService.generateToken((Associate) auth.getPrincipal());
+        LoginResponse loginResponse = authenticationService.generateToken((Associate) auth.getPrincipal());
 
         return ResponseEntity.ok(loginResponse);
     }

@@ -1,11 +1,9 @@
 package com.raphael.Library.utils;
 
-import com.raphael.Library.entities.Associate;
 import com.raphael.Library.entities.Requisition;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.exception.RequisitionException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,13 +42,6 @@ public class ValidationUtils {
             if (requisition.getBook().getBookId().equals(newReq.getBook().getBookId())) {
                 throw new RequisitionException("The book has already been requested.", HttpStatus.CONFLICT);
             }
-        }
-    }
-
-    public static void verifyHasPermission(JwtAuthenticationToken token, Associate associate) throws Exception {
-
-        if (!(associate.getAssociateId().equals(Long.parseLong(token.getName()))) && !(associate.getRole().equals(Associate.RoleIndicator.ADMIN))) {
-            throw new RequisitionException("Don't have permission!", HttpStatus.UNAUTHORIZED);
         }
     }
 }

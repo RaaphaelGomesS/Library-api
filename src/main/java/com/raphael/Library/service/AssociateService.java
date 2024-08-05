@@ -12,7 +12,6 @@ import com.raphael.Library.utils.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -44,12 +43,11 @@ public class AssociateService {
     }
 
 
-    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO, JwtAuthenticationToken token) throws Exception {
+    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO) throws Exception {
 
         Associate associate = associateRepository.findById(associateRequestDTO.getAssociateId())
                 .orElseThrow(() -> new AssociateException("Associate not found!", HttpStatus.NOT_FOUND));
 
-        ValidationUtils.verifyHasPermission(token, associate);
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
         ValidationUtils.verifyPassword(associateRequestDTO.getPassword());
 
@@ -63,21 +61,17 @@ public class AssociateService {
         return AssociateResponseDTOBuilder.from(associate);
     }
 
-    public void deleteAssociate(long associateId, JwtAuthenticationToken token) throws Exception {
+    public void deleteAssociate(long associateId) throws Exception {
 
-        Associate associate = getById(associateId, token);
+        Associate associate = getById(associateId);
 
         associateRepository.delete(associate);
     }
 
-    public Associate getById(long associateId, JwtAuthenticationToken token) throws Exception {
+    public Associate getById(long associateId) throws Exception {
 
-        Associate associate = associateRepository.findById(associateId)
+        return associateRepository.findById(associateId)
                 .orElseThrow(() -> new AssociateException("Associate not found!", HttpStatus.NOT_FOUND));
-
-        ValidationUtils.verifyHasPermission(token, associate);
-
-        return associate;
     }
 
     public void addRequisition(Requisition requisition) throws Exception {

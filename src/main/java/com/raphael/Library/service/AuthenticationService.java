@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.raphael.Library.dto.LoginResponse;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.exception.AssociateException;
@@ -20,22 +21,21 @@ import java.time.ZoneOffset;
 
 @Service
 @RequiredArgsConstructor
-public class LoginService {
+public class AuthenticationService {
 
     private final AssociateRepository associateRepository;
 
     @Value("${api.token.secret}")
     private String secret;
 
-    public String validateToken(String token) throws AssociateException {
+    public DecodedJWT validateToken(String token) throws AssociateException {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             return JWT.require(algorithm)
                     .withIssuer("Library_api")
                     .build()
-                    .verify(token)
-                    .getSubject();
+                    .verify(token);
 
         } catch (JWTVerificationException exception) {
             throw new AssociateException("The token is invalid or expired!", HttpStatus.BAD_REQUEST);

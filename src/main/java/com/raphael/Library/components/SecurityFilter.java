@@ -3,7 +3,7 @@ package com.raphael.Library.components;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.repository.AssociateRepository;
-import com.raphael.Library.service.LoginService;
+import com.raphael.Library.service.AuthenticationService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SecurityFilter extends OncePerRequestFilter {
 
-    private LoginService loginService;
+    private AuthenticationService authenticationService;
 
     private AssociateRepository associateRepository;
 
@@ -34,7 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         String token = recoveryToken(request);
 
         if (token != null) {
-            String username = loginService.validateToken(token);
+            String username = authenticationService.validateToken(token).getSubject();
 
             Associate associate = associateRepository.findByUsername(username)
                     .orElseThrow(() -> new AssociateException("Associate not found!", HttpStatus.NOT_FOUND));
