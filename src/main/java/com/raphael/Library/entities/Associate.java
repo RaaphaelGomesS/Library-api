@@ -6,7 +6,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -42,11 +41,11 @@ public class Associate {
     private List<Requisition> booksInPossession;
 
     @CreationTimestamp
-    @Column(name = "creation", updatable = false)
+//    @Column(name = "creation", updatable = false)
     private Instant createDate;
 
     @UpdateTimestamp
-    @Column(name = "update")
+//    @Column(name = "update")
     private Instant updateDate;
 
     public enum RoleIndicator {

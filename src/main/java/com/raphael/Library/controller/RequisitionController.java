@@ -7,7 +7,6 @@ import com.raphael.Library.repository.AssociateRepository;
 import com.raphael.Library.service.RequisitionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,6 @@ public class RequisitionController {
     private AssociateRepository associateRepository;
 
     @GetMapping("/")
-    @PreAuthorize("hasAuthority('role_ADMIN')")
     public ResponseEntity<RequisitionPageDTO> getAllRequisitionCloseToExpire(@RequestParam(value = "page", defaultValue = "1") int page,
                                                                              @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 

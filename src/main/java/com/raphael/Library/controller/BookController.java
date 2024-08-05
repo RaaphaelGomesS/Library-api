@@ -10,7 +10,6 @@ import com.raphael.Library.repository.BookRepository;
 import com.raphael.Library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +24,6 @@ public class BookController {
     private final BookRepository bookRepository;
 
     @PostMapping("/create")
-    @PreAuthorize("hasAuthority('role_ADMIN')")
     public ResponseEntity<Book> createBook(@RequestBody BookRequestDTO bookRequestDTO) throws BookException {
 
         Book book = bookService.createBook(bookRequestDTO);
@@ -44,7 +42,7 @@ public class BookController {
         return ResponseEntity.ok(books);
     }
 
-    @GetMapping("/")
+    @GetMapping("/gender")
     public ResponseEntity<List<BookResponseDTO>> getAllBooksByGender(@RequestBody GenderFilter filter) throws BookException {
 
         List<BookResponseDTO> bookResponseDTOS = bookService.getBooksByGender(filter);

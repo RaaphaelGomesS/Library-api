@@ -8,7 +8,6 @@ import com.raphael.Library.service.AssociateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +23,6 @@ public class AssociateController {
     private final AssociateRepository repository;
 
     @GetMapping("/")
-    @PreAuthorize("hasAuthority('role_ADMIN')")
     public ResponseEntity<List<Associate>> getAllAssociate() {
 
         List<Associate> associate = repository.findAll();
