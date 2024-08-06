@@ -1,9 +1,9 @@
-package com.raphael.Library.service;
+package com.raphael.Library.service.book;
 
 import com.raphael.Library.builder.BookBuilder;
 import com.raphael.Library.builder.BookResponseDTOBuilder;
-import com.raphael.Library.dto.BookRequestDTO;
-import com.raphael.Library.dto.BookResponseDTO;
+import com.raphael.Library.dto.book.BookRequestDTO;
+import com.raphael.Library.dto.book.BookResponseDTO;
 import com.raphael.Library.dto.GenderFilter;
 import com.raphael.Library.entities.books.Author;
 import com.raphael.Library.entities.books.Book;

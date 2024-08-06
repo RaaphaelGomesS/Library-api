@@ -1,6 +1,6 @@
 package com.raphael.Library.builder;
 
-import com.raphael.Library.dto.BookRequestDTO;
+import com.raphael.Library.dto.book.BookRequestDTO;
 import com.raphael.Library.entities.books.Author;
 import com.raphael.Library.entities.books.Publisher;
 import com.raphael.Library.indicator.GenderIndicator;

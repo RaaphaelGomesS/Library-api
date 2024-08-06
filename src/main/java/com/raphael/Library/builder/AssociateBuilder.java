@@ -1,6 +1,6 @@
 package com.raphael.Library.builder;
 
-import com.raphael.Library.dto.AssociateRequestDTO;
+import com.raphael.Library.dto.associate.AssociateRequestDTO;
 import com.raphael.Library.entities.Associate;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.crypto.password.PasswordEncoder;

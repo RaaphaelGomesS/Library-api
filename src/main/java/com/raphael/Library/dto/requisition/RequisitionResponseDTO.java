@@ -1,4 +1,4 @@
-package com.raphael.Library.dto;
+package com.raphael.Library.dto.requisition;
 
 import com.raphael.Library.indicator.StatusIndicator;
 import lombok.*;

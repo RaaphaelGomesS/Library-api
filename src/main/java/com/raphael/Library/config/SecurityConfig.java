@@ -27,11 +27,11 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/associate").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/requisition").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/book/create").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/login/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/associate/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/requisition/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/book/create/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/login/").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login/register/").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)

@@ -1,6 +1,6 @@
 package com.raphael.Library.builder;
 
-import com.raphael.Library.dto.BookResponseDTO;
+import com.raphael.Library.dto.book.BookResponseDTO;
 import com.raphael.Library.entities.books.Book;
 import lombok.experimental.UtilityClass;
 

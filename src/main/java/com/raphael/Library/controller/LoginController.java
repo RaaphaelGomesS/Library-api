@@ -1,9 +1,9 @@
 package com.raphael.Library.controller;
 
-import com.raphael.Library.dto.AssociateRequestDTO;
-import com.raphael.Library.dto.AssociateResponseDTO;
-import com.raphael.Library.dto.LoginRequest;
-import com.raphael.Library.dto.LoginResponse;
+import com.raphael.Library.dto.associate.AssociateRequestDTO;
+import com.raphael.Library.dto.associate.AssociateResponseDTO;
+import com.raphael.Library.dto.login.LoginRequest;
+import com.raphael.Library.dto.login.LoginResponse;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.service.AssociateService;

@@ -2,8 +2,8 @@ package com.raphael.Library.service;
 
 import com.raphael.Library.builder.AssociateBuilder;
 import com.raphael.Library.builder.AssociateResponseDTOBuilder;
-import com.raphael.Library.dto.AssociateRequestDTO;
-import com.raphael.Library.dto.AssociateResponseDTO;
+import com.raphael.Library.dto.associate.AssociateRequestDTO;
+import com.raphael.Library.dto.associate.AssociateResponseDTO;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.entities.Requisition;
 import com.raphael.Library.exception.AssociateException;

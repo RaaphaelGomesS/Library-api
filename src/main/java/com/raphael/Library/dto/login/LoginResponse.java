@@ -1,4 +1,4 @@
-package com.raphael.Library.dto;
+package com.raphael.Library.dto.login;
 
 import java.time.Instant;
 

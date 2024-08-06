@@ -1,4 +1,4 @@
-package com.raphael.Library.dto;
+package com.raphael.Library.dto.requisition;
 
 import lombok.*;
 

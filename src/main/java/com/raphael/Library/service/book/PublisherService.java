@@ -1,6 +1,6 @@
-package com.raphael.Library.service;
+package com.raphael.Library.service.book;
 
-import com.raphael.Library.dto.BookRequestDTO;
+import com.raphael.Library.dto.book.BookRequestDTO;
 import com.raphael.Library.entities.books.Publisher;
 import com.raphael.Library.repository.PublisherRepository;
 import lombok.AllArgsConstructor;

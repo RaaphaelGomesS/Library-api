@@ -1,13 +1,13 @@
 package com.raphael.Library.controller;
 
 import com.raphael.Library.builder.BookResponseDTOBuilder;
-import com.raphael.Library.dto.BookRequestDTO;
-import com.raphael.Library.dto.BookResponseDTO;
+import com.raphael.Library.dto.book.BookRequestDTO;
+import com.raphael.Library.dto.book.BookResponseDTO;
 import com.raphael.Library.dto.GenderFilter;
 import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.exception.BookException;
 import com.raphael.Library.repository.BookRepository;
-import com.raphael.Library.service.BookService;
+import com.raphael.Library.service.book.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

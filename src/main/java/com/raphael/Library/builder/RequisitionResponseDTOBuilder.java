@@ -1,6 +1,6 @@
 package com.raphael.Library.builder;
 
-import com.raphael.Library.dto.RequisitionResponseDTO;
+import com.raphael.Library.dto.requisition.RequisitionResponseDTO;
 import com.raphael.Library.entities.Requisition;
 import lombok.experimental.UtilityClass;
 

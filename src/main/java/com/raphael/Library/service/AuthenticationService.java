@@ -5,13 +5,15 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.raphael.Library.dto.LoginResponse;
+import com.raphael.Library.dto.login.LoginResponse;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.repository.AssociateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ import java.time.ZoneOffset;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationService implements UserDetailsService {
 
     private final AssociateRepository associateRepository;
 
@@ -60,7 +62,8 @@ public class AuthenticationService {
         }
     }
 
-    public Associate loadUserByUsername(String username) throws UsernameNotFoundException {
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return associateRepository.findByUsername(username).orElse(null);
     }
 

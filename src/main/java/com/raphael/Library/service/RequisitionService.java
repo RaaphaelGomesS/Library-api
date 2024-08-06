@@ -2,10 +2,10 @@ package com.raphael.Library.service;
 
 import com.raphael.Library.builder.AssociateRequisitionDTOBuilder;
 import com.raphael.Library.builder.RequisitionResponseDTOBuilder;
-import com.raphael.Library.dto.AssociateRequisitionDTO;
-import com.raphael.Library.dto.RequisitionPageDTO;
-import com.raphael.Library.dto.RequisitionRequestDTO;
-import com.raphael.Library.dto.RequisitionResponseDTO;
+import com.raphael.Library.dto.associate.AssociateRequisitionDTO;
+import com.raphael.Library.dto.requisition.RequisitionPageDTO;
+import com.raphael.Library.dto.requisition.RequisitionRequestDTO;
+import com.raphael.Library.dto.requisition.RequisitionResponseDTO;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.entities.Requisition;
 import com.raphael.Library.entities.books.Book;

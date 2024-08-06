@@ -1,7 +1,7 @@
 package com.raphael.Library.controller;
 
-import com.raphael.Library.dto.AssociateRequestDTO;
-import com.raphael.Library.dto.AssociateResponseDTO;
+import com.raphael.Library.dto.associate.AssociateRequestDTO;
+import com.raphael.Library.dto.associate.AssociateResponseDTO;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.repository.AssociateRepository;
 import com.raphael.Library.service.AssociateService;

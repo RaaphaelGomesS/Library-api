@@ -1,6 +1,6 @@
 package com.raphael.Library.builder;
 
-import com.raphael.Library.dto.AssociateResponseDTO;
+import com.raphael.Library.dto.associate.AssociateResponseDTO;
 import com.raphael.Library.entities.Associate;
 import lombok.experimental.UtilityClass;
 
