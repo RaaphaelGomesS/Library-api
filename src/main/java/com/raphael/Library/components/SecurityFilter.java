@@ -39,11 +39,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             Associate associate = associateRepository.findByUsername(username)
                     .orElseThrow(() -> new AssociateException("Associate not found!", HttpStatus.NOT_FOUND));
 
-            List<SimpleGrantedAuthority> authorities = associate.getRole() == Associate.RoleIndicator.ADMIN
-                    ? List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"))
-                    : List.of(new SimpleGrantedAuthority("ROLE_USER"));
-
-            Authentication authentication = new UsernamePasswordAuthenticationToken(associate, null, authorities);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(associate, null, associate.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

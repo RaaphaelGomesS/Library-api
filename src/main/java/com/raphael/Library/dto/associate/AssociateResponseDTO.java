@@ -12,8 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 public class AssociateResponseDTO {
 
-    private Long associateId;
-
     private String name;
 
     private String email;

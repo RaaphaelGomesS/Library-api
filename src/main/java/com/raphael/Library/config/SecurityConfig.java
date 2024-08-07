@@ -31,7 +31,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/requisition/").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/book/create/").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/login/").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/login/register/").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login/register").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
