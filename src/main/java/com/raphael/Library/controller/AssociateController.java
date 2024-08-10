@@ -36,9 +36,9 @@ public class AssociateController {
     @GetMapping("/{id}")
     public ResponseEntity<Associate> getAssociate(@PathVariable long id, @RequestHeader String auth) throws Exception {
 
-        String tokenId = authenticationService.validateToken(auth);
+        Associate associateByToken = authenticationService.validateToken(auth);
 
-        Associate associate = service.getById(id, tokenId);
+        Associate associate = service.getById(id, associateByToken);
 
         return ResponseEntity.ok(associate);
     }
@@ -46,9 +46,9 @@ public class AssociateController {
     @PutMapping("/update/{id}")
     public ResponseEntity<AssociateResponseDTO> updateAssociate(@PathVariable long id, @RequestBody AssociateRequestDTO associateRequestDTO, @RequestHeader String auth) throws Exception {
 
-        String tokenId = authenticationService.validateToken(auth);
+        Associate associateByToken = authenticationService.validateToken(auth);
 
-        AssociateResponseDTO associate = service.updateAssociate(associateRequestDTO, id, tokenId);
+        AssociateResponseDTO associate = service.updateAssociate(associateRequestDTO, id, associateByToken);
 
         return ResponseEntity.ok(associate);
     }
@@ -56,9 +56,9 @@ public class AssociateController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAssociate(@PathVariable long id, @RequestHeader String auth) throws Exception {
 
-        String tokenId = authenticationService.validateToken(auth);
+        Associate associateByToken = authenticationService.validateToken(auth);
 
-        service.deleteAssociate(id, tokenId);
+        service.deleteAssociate(id, associateByToken);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }

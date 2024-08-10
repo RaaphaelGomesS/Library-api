@@ -11,6 +11,7 @@ import com.raphael.Library.repository.AssociateRepository;
 import com.raphael.Library.utils.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,9 +44,9 @@ public class AssociateService {
     }
 
 
-    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO, long id, String tokenId) throws Exception {
+    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO, long id, Associate associateByToken) throws Exception {
 
-        Associate associate = getById(id, tokenId);
+        Associate associate = getById(id, associateByToken);
 
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
         ValidationUtils.verifyPassword(associateRequestDTO.getPassword());
@@ -60,19 +61,19 @@ public class AssociateService {
         return AssociateResponseDTOBuilder.from(associate);
     }
 
-    public void deleteAssociate(long associateId, String tokenId) throws Exception {
+    public void deleteAssociate(long associateId, Associate associateByToken) throws Exception {
 
-        Associate associate = getById(associateId, tokenId);
+        Associate associate = getById(associateId, associateByToken);
 
         associateRepository.delete(associate);
     }
 
-    public Associate getById(long associateId, String tokenId) throws Exception {
+    public Associate getById(long associateId, Associate associateByToken) throws Exception {
 
         Associate associate = associateRepository.findById(associateId)
                 .orElseThrow(() -> new AssociateException("Associate not found!", HttpStatus.NOT_FOUND));
 
-        ValidationUtils.verifyHasPermission(tokenId, associate);
+        ValidationUtils.verifyHasPermission(associateByToken, associate);
 
         return associate;
     }

@@ -4,18 +4,12 @@ import com.raphael.Library.entities.Associate;
 import com.raphael.Library.entities.Requisition;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.exception.RequisitionException;
-import com.raphael.Library.repository.AssociateRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ValidationUtils {
-
-    @Autowired
-    private static AssociateRepository associateRepository;
 
     public static void verifyEmail(String email) throws AssociateException {
 
@@ -52,17 +46,9 @@ public class ValidationUtils {
         }
     }
 
-    public static void verifyHasPermission(String tokenId, Associate associate) throws AssociateException {
-        if (associate.getAssociateId() == Long.parseLong(tokenId)) {
-            return;
+    public static void verifyHasPermission(Associate associateByToken, Associate associate) throws AssociateException {
+        if (!(associate.getUsername().equals(associateByToken.getUsername())) && !(associateByToken.getAuthorities().contains("ROLE_ADMIN"))) {
+            throw new AssociateException("No have permission!", HttpStatus.UNAUTHORIZED);
         }
-
-        Optional<Associate> associateToken = associateRepository.findById(Long.parseLong(tokenId));
-
-        if ((associateToken.get().getAuthorities().contains("ROLE_ADMIN"))) {
-            return;
-        }
-
-        throw new AssociateException("No have permission!", HttpStatus.UNAUTHORIZED);
     }
 }

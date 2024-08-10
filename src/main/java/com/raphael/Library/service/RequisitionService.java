@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -37,9 +38,9 @@ public class RequisitionService {
 
     private final AssociateService associateService;
 
-    public RequisitionResponseDTO makeRequisitionByAction(RequisitionRequestDTO requestDTO, String tokenId) throws Exception {
+    public RequisitionResponseDTO makeRequisitionByAction(RequisitionRequestDTO requestDTO, Associate associateByToken) throws Exception {
 
-        Associate associate = associateService.getById(requestDTO.getAssociateId(), tokenId);
+        Associate associate = associateService.getById(requestDTO.getAssociateId(), associateByToken);
 
         StatusIndicator statusIndicator = StatusIndicator.getValueByAction(requestDTO.getAction());
 
@@ -57,9 +58,9 @@ public class RequisitionService {
         };
     }
 
-    public List<RequisitionResponseDTO> getRequisitionForAssociate(long associateId, String tokenId) throws Exception {
+    public List<RequisitionResponseDTO> getRequisitionForAssociate(long associateId, Associate associateByToken) throws Exception {
 
-        Associate associate = associateService.getById(associateId, tokenId);
+        Associate associate = associateService.getById(associateId, associateByToken);
 
         return associate.getBooksInPossession().stream()
                 .filter(requisition -> requisition.getStatusIndicator() != StatusIndicator.FINALIZADO)
