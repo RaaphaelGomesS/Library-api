@@ -43,10 +43,9 @@ public class AssociateService {
     }
 
 
-    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO) throws Exception {
+    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO, long id, String tokenId) throws Exception {
 
-        Associate associate = associateRepository.findById(associateRequestDTO.getAssociateId())
-                .orElseThrow(() -> new AssociateException("Associate not found!", HttpStatus.NOT_FOUND));
+        Associate associate = getById(id, tokenId);
 
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
         ValidationUtils.verifyPassword(associateRequestDTO.getPassword());
@@ -61,17 +60,21 @@ public class AssociateService {
         return AssociateResponseDTOBuilder.from(associate);
     }
 
-    public void deleteAssociate(long associateId) throws Exception {
+    public void deleteAssociate(long associateId, String tokenId) throws Exception {
 
-        Associate associate = getById(associateId);
+        Associate associate = getById(associateId, tokenId);
 
         associateRepository.delete(associate);
     }
 
-    public Associate getById(long associateId) throws Exception {
+    public Associate getById(long associateId, String tokenId) throws Exception {
 
-        return associateRepository.findById(associateId)
+        Associate associate = associateRepository.findById(associateId)
                 .orElseThrow(() -> new AssociateException("Associate not found!", HttpStatus.NOT_FOUND));
+
+        ValidationUtils.verifyHasPermission(tokenId, associate);
+
+        return associate;
     }
 
     public void addRequisition(Requisition requisition) throws Exception {

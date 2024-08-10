@@ -30,14 +30,14 @@ public class AuthenticationService implements UserDetailsService {
     @Value("${api.token.secret}")
     private String secret;
 
-    public DecodedJWT validateToken(String token) throws AssociateException {
+    public String validateToken(String token) throws AssociateException {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             return JWT.require(algorithm)
                     .withIssuer("Library_api")
                     .build()
-                    .verify(token);
+                    .verify(token).getSubject();
 
         } catch (JWTVerificationException exception) {
             throw new AssociateException("The token is invalid or expired!", HttpStatus.BAD_REQUEST);
@@ -51,7 +51,7 @@ public class AuthenticationService implements UserDetailsService {
 
             String token = JWT.create()
                     .withIssuer("Library_api")
-                    .withSubject(associate.getUsername())
+                    .withSubject(associate.getAssociateId().toString())
                     .withExpiresAt(getExpirationDate())
                     .sign(algorithm);
 

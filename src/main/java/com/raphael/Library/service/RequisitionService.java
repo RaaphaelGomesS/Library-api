@@ -37,9 +37,9 @@ public class RequisitionService {
 
     private final AssociateService associateService;
 
-    public RequisitionResponseDTO makeRequisitionByAction(RequisitionRequestDTO requestDTO) throws Exception {
+    public RequisitionResponseDTO makeRequisitionByAction(RequisitionRequestDTO requestDTO, String tokenId) throws Exception {
 
-        Associate associate = associateService.getById(requestDTO.getAssociateId());
+        Associate associate = associateService.getById(requestDTO.getAssociateId(), tokenId);
 
         StatusIndicator statusIndicator = StatusIndicator.getValueByAction(requestDTO.getAction());
 
@@ -57,9 +57,9 @@ public class RequisitionService {
         };
     }
 
-    public List<RequisitionResponseDTO> getRequisitionForAssociate(long associateId) throws Exception {
+    public List<RequisitionResponseDTO> getRequisitionForAssociate(long associateId, String tokenId) throws Exception {
 
-        Associate associate = associateService.getById(associateId);
+        Associate associate = associateService.getById(associateId, tokenId);
 
         return associate.getBooksInPossession().stream()
                 .filter(requisition -> requisition.getStatusIndicator() != StatusIndicator.FINALIZADO)

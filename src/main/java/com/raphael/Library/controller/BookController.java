@@ -3,7 +3,6 @@ package com.raphael.Library.controller;
 import com.raphael.Library.builder.BookResponseDTOBuilder;
 import com.raphael.Library.dto.book.BookRequestDTO;
 import com.raphael.Library.dto.book.BookResponseDTO;
-import com.raphael.Library.dto.GenderFilter;
 import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.exception.BookException;
 import com.raphael.Library.repository.BookRepository;
@@ -43,9 +42,9 @@ public class BookController {
     }
 
     @GetMapping("/gender")
-    public ResponseEntity<List<BookResponseDTO>> getAllBooksByGender(@RequestBody GenderFilter filter) throws BookException {
+    public ResponseEntity<List<BookResponseDTO>> getAllBooksByGender(@RequestParam("gender") String gender) throws BookException {
 
-        List<BookResponseDTO> bookResponseDTOS = bookService.getBooksByGender(filter);
+        List<BookResponseDTO> bookResponseDTOS = bookService.getBooksByGender(gender);
 
         return ResponseEntity.ok(bookResponseDTOS);
     }

@@ -22,7 +22,7 @@ public class AssociateController {
 
     private final AssociateRepository repository;
 
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
 
     @GetMapping("/")
     public ResponseEntity<List<Associate>> getAllAssociate() {
@@ -34,35 +34,32 @@ public class AssociateController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Associate> getAssociate(@PathVariable long id, @RequestHeader String token) throws Exception {
+    public ResponseEntity<Associate> getAssociate(@PathVariable long id, @RequestHeader String auth) throws Exception {
 
-        authenticationService.validateToken(token);
+        String tokenId = authenticationService.validateToken(auth);
 
-        Associate associate = service.getById(id);
+        Associate associate = service.getById(id, tokenId);
 
         return ResponseEntity.ok(associate);
-
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<AssociateResponseDTO> updateAssociate(@RequestBody AssociateRequestDTO associateRequestDTO, @RequestHeader String token) throws Exception {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<AssociateResponseDTO> updateAssociate(@PathVariable long id, @RequestBody AssociateRequestDTO associateRequestDTO, @RequestHeader String auth) throws Exception {
 
-        authenticationService.validateToken(token);
+        String tokenId = authenticationService.validateToken(auth);
 
-        AssociateResponseDTO associate = service.updateAssociate(associateRequestDTO);
+        AssociateResponseDTO associate = service.updateAssociate(associateRequestDTO, id, tokenId);
 
         return ResponseEntity.ok(associate);
-
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAssociate(@PathVariable long id, @RequestHeader String token) throws Exception {
+    public ResponseEntity<Void> deleteAssociate(@PathVariable long id, @RequestHeader String auth) throws Exception {
 
-        authenticationService.validateToken(token);
+        String tokenId = authenticationService.validateToken(auth);
 
-        service.deleteAssociate(id);
+        service.deleteAssociate(id, tokenId);
 
         return ResponseEntity.status(HttpStatus.OK).build();
-
     }
 }

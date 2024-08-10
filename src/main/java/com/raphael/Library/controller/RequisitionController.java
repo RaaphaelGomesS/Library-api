@@ -35,9 +35,9 @@ public class RequisitionController {
     @PostMapping("/")
     public ResponseEntity<RequisitionResponseDTO> makeRequisition(@RequestBody RequisitionRequestDTO requestDTO, @RequestHeader String token) throws Exception {
 
-        authenticationService.validateToken(token);
+        String tokenId = authenticationService.validateToken(token);
 
-        RequisitionResponseDTO responseDTO = requisitionService.makeRequisitionByAction(requestDTO);
+        RequisitionResponseDTO responseDTO = requisitionService.makeRequisitionByAction(requestDTO, tokenId);
 
         return ResponseEntity.ok(responseDTO);
     }
@@ -45,9 +45,9 @@ public class RequisitionController {
     @GetMapping("/{id}")
     public ResponseEntity<List<RequisitionResponseDTO>> getAllRequisitionFromAssociate(@PathVariable long id, @RequestHeader String token) throws Exception {
 
-        authenticationService.validateToken(token);
+        String tokenId = authenticationService.validateToken(token);
 
-        List<RequisitionResponseDTO> responseDTOS = requisitionService.getRequisitionForAssociate(id);
+        List<RequisitionResponseDTO> responseDTOS = requisitionService.getRequisitionForAssociate(id, tokenId);
 
         return ResponseEntity.ok(responseDTOS);
     }

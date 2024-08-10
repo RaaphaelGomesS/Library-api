@@ -4,7 +4,6 @@ import com.raphael.Library.builder.BookBuilder;
 import com.raphael.Library.builder.BookResponseDTOBuilder;
 import com.raphael.Library.dto.book.BookRequestDTO;
 import com.raphael.Library.dto.book.BookResponseDTO;
-import com.raphael.Library.dto.GenderFilter;
 import com.raphael.Library.entities.books.Author;
 import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.entities.books.Publisher;
@@ -76,15 +75,15 @@ public class BookService {
         return BookResponseDTOBuilder.fromList(publisher.getBooks());
     }
 
-    public List<BookResponseDTO> getBooksByGender(GenderFilter filter) throws BookException {
+    public List<BookResponseDTO> getBooksByGender(String gender) throws BookException {
 
         List<Book> books = bookRepository.findAll()
                 .stream()
-                .filter(book -> book.getGender().getNames().contains(filter.getGender()))
+                .filter(book -> book.getGender().getNames().contains(gender))
                 .toList();
 
         if (books.isEmpty()) {
-            throw new BookException("Book already exist!", HttpStatus.NOT_FOUND);
+            throw new BookException("Not found any book with this gender!", HttpStatus.NOT_FOUND);
         }
 
         return books.stream().map(BookResponseDTOBuilder::from).toList();

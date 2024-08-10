@@ -13,11 +13,10 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler(AssociateException.class)
     public ResponseEntity handlerAssociateException(AssociateException e) {
-        log.info("error: " + e.getMessage());
 
         AssociateException exception = new AssociateException(e.getMessage(), e.getStatus());
 
-        return new ResponseEntity(exception.getMessage(), e.getStatus());
+        return ResponseEntity.status(e.getStatus()).body(e.getMessage());
     }
 
     @ExceptionHandler(BookException.class)

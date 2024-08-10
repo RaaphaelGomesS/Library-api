@@ -34,9 +34,9 @@ public class SecurityFilter extends OncePerRequestFilter {
         String token = recoveryToken(request);
 
         if (token != null) {
-            String username = authenticationService.validateToken(token).getSubject();
+            String tokenId = authenticationService.validateToken(token);
 
-            Associate associate = associateRepository.findByUsername(username)
+            Associate associate = associateRepository.findById(Long.parseLong(tokenId))
                     .orElseThrow(() -> new AssociateException("Associate not found!", HttpStatus.NOT_FOUND));
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(associate, null, associate.getAuthorities());
@@ -48,8 +48,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
 
     private String recoveryToken(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
 
-        return authHeader != null ? authHeader.replace("Bearer ", "") : null;
+        return request.getHeader("auth");
     }
 }
