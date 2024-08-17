@@ -32,7 +32,7 @@ public class BookService {
 
     private final PublisherService publisherService;
 
-    public Book createBook(BookRequestDTO bookRequestDTO) throws BookException {
+    public BookResponseDTO createBook(BookRequestDTO bookRequestDTO) throws BookException {
 
         verifyIfAlreadyExist(bookRequestDTO);
 
@@ -48,7 +48,7 @@ public class BookService {
         authorRepository.save(author);
         publisherRepository.save(publisher);
 
-        return book;
+        return BookResponseDTOBuilder.from(book);
     }
 
     public List<BookResponseDTO> getAllBooksByAuthor(String authorName) throws BookException {
