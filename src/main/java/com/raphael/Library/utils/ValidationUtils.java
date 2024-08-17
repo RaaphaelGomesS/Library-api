@@ -18,7 +18,7 @@ public class ValidationUtils {
         Matcher matcher = pattern.matcher(email);
 
         if (!matcher.matches()) {
-            throw new AssociateException("Email is invalid!", HttpStatus.CONFLICT);
+            throw new AssociateException("O email é inválido.", HttpStatus.CONFLICT);
         }
     }
 
@@ -29,26 +29,26 @@ public class ValidationUtils {
         Matcher matcher = pattern.matcher(password);
 
         if (!matcher.matches()) {
-            throw new AssociateException("The password must have at least one upper letter, one number, one special character and be between 8 and 15 characters.", HttpStatus.CONFLICT);
+            throw new AssociateException("A senha deve ter pelo menos uma letra maiúscula, uma letra minúscula, um número, um caracter especial e deve estar entre 8 e 15 caracteres.", HttpStatus.CONFLICT);
         }
     }
 
     public static void verifyManyRequisitionHave(Requisition newReq) throws Exception {
 
         if (newReq.getAssociate().getBooksInPossession().size() >= 3) {
-            throw new AssociateException("Already have the maximum number of books in your possession: 3", HttpStatus.CONFLICT);
+            throw new AssociateException("Já possui o máximo de requisições possíveis = 3", HttpStatus.BAD_REQUEST);
         }
 
         for (Requisition requisition : newReq.getAssociate().getBooksInPossession()) {
             if (requisition.getBook().getBookId().equals(newReq.getBook().getBookId())) {
-                throw new RequisitionException("The book has already been requested.", HttpStatus.CONFLICT);
+                throw new RequisitionException("Já existe uma requisição com esse livro.", HttpStatus.BAD_REQUEST);
             }
         }
     }
 
     public static void verifyHasPermission(Associate associateByToken, Associate associate) throws AssociateException {
         if (!(associate.getUsername().equals(associateByToken.getUsername())) && !(associateByToken.getAuthorities().contains("ROLE_ADMIN"))) {
-            throw new AssociateException("No have permission!", HttpStatus.UNAUTHORIZED);
+            throw new AssociateException("Não possui permissão.", HttpStatus.UNAUTHORIZED);
         }
     }
 }

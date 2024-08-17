@@ -42,7 +42,7 @@ public class AuthenticationService implements UserDetailsService {
             return loadUserByUsername(username);
 
         } catch (JWTVerificationException exception) {
-            throw new AssociateException("The token is invalid or expired!", HttpStatus.BAD_REQUEST);
+            throw new AssociateException("O token é invalidado ou está expirado.", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -60,7 +60,7 @@ public class AuthenticationService implements UserDetailsService {
             return new LoginResponse(token, getExpirationDate());
 
         } catch (JWTCreationException exception) {
-            throw new AssociateException("Error when create token!", HttpStatus.BAD_REQUEST);
+            throw new AssociateException("Erro ao criar o token.", HttpStatus.BAD_REQUEST);
         }
     }
 

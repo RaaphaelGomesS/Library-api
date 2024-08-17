@@ -1,5 +1,6 @@
 package com.raphael.Library.entities.books;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,7 @@ public class Publisher {
     @Column(name = "name")
     private String name;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "publisher")
     private List<Book> books;
 }

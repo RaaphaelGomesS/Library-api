@@ -19,6 +19,7 @@ public class BookResponseDTOBuilder {
                 .builder()
                 .bookId(book.getBookId())
                 .name(book.getName())
+                .gender(book.getGender().name())
                 .author(book.getAuthor().getName())
                 .publisher(book.getPublisher().getName())
                 .build();

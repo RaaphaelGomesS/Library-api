@@ -11,7 +11,6 @@ import com.raphael.Library.repository.AssociateRepository;
 import com.raphael.Library.utils.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +29,7 @@ public class AssociateService {
         Optional<Associate> optionalAssociate = associateRepository.findByUsername(associateRequestDTO.getUsername());
 
         if (optionalAssociate.isPresent()) {
-            throw new AssociateException("The username is already registered!", HttpStatus.CONFLICT);
+            throw new AssociateException("O username já está em uso.", HttpStatus.CONFLICT);
         }
 
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
@@ -71,7 +70,17 @@ public class AssociateService {
     public Associate getById(long associateId, Associate associateByToken) throws Exception {
 
         Associate associate = associateRepository.findById(associateId)
-                .orElseThrow(() -> new AssociateException("Associate not found!", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new AssociateException("Associado não encontrado.", HttpStatus.NOT_FOUND));
+
+        ValidationUtils.verifyHasPermission(associateByToken, associate);
+
+        return associate;
+    }
+
+    public Associate getByUsername(String username, Associate associateByToken) throws Exception {
+
+        Associate associate = associateRepository.findByUsername(username)
+                .orElseThrow(() -> new AssociateException("Associado não encontrado.", HttpStatus.NOT_FOUND));
 
         ValidationUtils.verifyHasPermission(associateByToken, associate);
 

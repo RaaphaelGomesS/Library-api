@@ -34,6 +34,6 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
         RequisitionException exception = new RequisitionException(e.getMessage(), e.getStatus());
 
-        return new ResponseEntity(exception, e.getStatus());
+        return new ResponseEntity(exception.getMessage(), e.getStatus());
     }
 }

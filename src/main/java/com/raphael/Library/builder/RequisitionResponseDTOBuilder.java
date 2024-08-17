@@ -13,6 +13,7 @@ public class RequisitionResponseDTOBuilder {
                 .builder()
                 .requisitionId(requisition.getRequisitionId())
                 .statusIndicator(requisition.getStatusIndicator())
+                .retiredDate(requisition.getRetiredDate())
                 .devolutionDate(requisition.getDevolutionDate())
                 .build();
     }

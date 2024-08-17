@@ -20,7 +20,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -40,21 +39,18 @@ public class RequisitionService {
 
     public RequisitionResponseDTO makeRequisitionByAction(RequisitionRequestDTO requestDTO, Associate associateByToken) throws Exception {
 
-        Associate associate = associateService.getById(requestDTO.getAssociateId(), associateByToken);
+        Associate associate = associateService.getByUsername(requestDTO.getAssociate(), associateByToken);
 
         StatusIndicator statusIndicator = StatusIndicator.getValueByAction(requestDTO.getAction());
 
         if (statusIndicator == null) {
-            throw new RequisitionException("Not is possible create a requisition for this action.", HttpStatus.CONFLICT);
+            throw new RequisitionException("Não é possivel realizar essa ação, tente: abrir, renovar ou fechar.", HttpStatus.CONFLICT);
         }
-
-        Requisition requisition = requisitionRepository.findById(requestDTO.getRequisitionId())
-                .orElseThrow(() -> new RequisitionException("Requisition not exist!", HttpStatus.NOT_FOUND));
 
         return switch (statusIndicator) {
             case ABERTO -> createRequisition(requestDTO, associate);
-            case POSTERGADO -> updateRequisition(requisition);
-            case FINALIZADO -> closeRequisition(requisition);
+            case POSTERGADO -> updateRequisition(requestDTO);
+            case FINALIZADO -> closeRequisition(requestDTO);
         };
     }
 
@@ -79,26 +75,34 @@ public class RequisitionService {
 
     private RequisitionResponseDTO createRequisition(RequisitionRequestDTO requestDTO, Associate associate) throws Exception {
 
-        Book book = bookRepository.findById(requestDTO.getBookId())
-                .orElseThrow(() -> new BookException("Book not found!", HttpStatus.NOT_FOUND));
+        Book book = bookRepository.findByName(requestDTO.getBookName())
+                .orElseThrow(() -> new BookException("Livro não encontrado.", HttpStatus.NOT_FOUND));
 
         Requisition requisition = Requisition
                 .builder()
                 .book(book)
                 .associate(associate)
                 .statusIndicator(StatusIndicator.ABERTO)
+                .retiredDate(LocalDate.now())
                 .devolutionDate(LocalDate.now().plusWeeks(1L))
                 .build();
 
-        requisitionRepository.save(requisition);
-
         associateService.addRequisition(requisition);
+
+        requisitionRepository.save(requisition);
 
         return RequisitionResponseDTOBuilder.from(requisition);
     }
 
 
-    private RequisitionResponseDTO updateRequisition(Requisition requisition) {
+    private RequisitionResponseDTO updateRequisition(RequisitionRequestDTO requestDTO) throws RequisitionException {
+
+        if (requestDTO.getRequisitionId() == null) {
+            throw new RequisitionException("É necessário o Id da requisição para atualiza-la.", HttpStatus.BAD_REQUEST);
+        }
+
+        Requisition requisition = requisitionRepository.findById(Long.parseLong(requestDTO.getRequisitionId()))
+                .orElseThrow(() -> new RequisitionException("Requisition não existe!", HttpStatus.NOT_FOUND));
 
         requisition.setStatusIndicator(StatusIndicator.POSTERGADO);
         requisition.setDevolutionDate(LocalDate.now().plusWeeks(1L));
@@ -108,7 +112,14 @@ public class RequisitionService {
         return RequisitionResponseDTOBuilder.from(requisition);
     }
 
-    private RequisitionResponseDTO closeRequisition(Requisition requisition) {
+    private RequisitionResponseDTO closeRequisition(RequisitionRequestDTO requestDTO) throws RequisitionException {
+
+        if (requestDTO.getRequisitionId() == null) {
+            throw new RequisitionException("É necessário o Id da requisição para finaliza-la.", HttpStatus.BAD_REQUEST);
+        }
+
+        Requisition requisition = requisitionRepository.findById(Long.parseLong(requestDTO.getRequisitionId()))
+                .orElseThrow(() -> new RequisitionException("Requisition não existe!", HttpStatus.NOT_FOUND));
 
         requisition.setStatusIndicator(StatusIndicator.FINALIZADO);
         requisition.setDevolutionDate(null);

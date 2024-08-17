@@ -32,7 +32,7 @@ public class BookService {
 
     private final PublisherService publisherService;
 
-    public BookResponseDTO createBook(BookRequestDTO bookRequestDTO) throws BookException {
+    public Book createBook(BookRequestDTO bookRequestDTO) throws BookException {
 
         verifyIfAlreadyExist(bookRequestDTO);
 
@@ -48,13 +48,13 @@ public class BookService {
         authorRepository.save(author);
         publisherRepository.save(publisher);
 
-        return BookResponseDTOBuilder.from(book);
+        return book;
     }
 
     public List<BookResponseDTO> getAllBooksByAuthor(String authorName) throws BookException {
 
         Author author = authorRepository.findByName(authorName)
-                .orElseThrow(() -> new BookException("Author not found!", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BookException("Autor não encontrado.", HttpStatus.NOT_FOUND));
 
         if (author.getBooks().isEmpty()) {
             throw new BookException("Author has no books!", HttpStatus.NOT_FOUND);
@@ -66,10 +66,10 @@ public class BookService {
     public List<BookResponseDTO> getAllBooksByPublisher(String publisherName) throws BookException {
 
         Publisher publisher = publisherRepository.findByName(publisherName)
-                .orElseThrow(() -> new BookException("Author not found!", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BookException("Autor não encontrado.", HttpStatus.NOT_FOUND));
 
         if (publisher.getBooks().isEmpty()) {
-            throw new BookException("Publisher has no books!", HttpStatus.NOT_FOUND);
+            throw new BookException("Editora não possui livros registrados.", HttpStatus.NOT_FOUND);
         }
 
         return BookResponseDTOBuilder.fromList(publisher.getBooks());
@@ -83,7 +83,7 @@ public class BookService {
                 .toList();
 
         if (books.isEmpty()) {
-            throw new BookException("Not found any book with this gender!", HttpStatus.NOT_FOUND);
+            throw new BookException("Nenhum livro com esse genero foi encontrada.", HttpStatus.NOT_FOUND);
         }
 
         return books.stream().map(BookResponseDTOBuilder::from).toList();
@@ -94,7 +94,7 @@ public class BookService {
         Optional<Book> foundedBook = bookRepository.findByName(bookRequestDTO.getBookName());
 
         if (foundedBook.isPresent() && foundedBook.get().getAuthor().getName().equalsIgnoreCase(bookRequestDTO.getAuthorName())) {
-            throw new BookException("Book already exist!", HttpStatus.CONFLICT);
+            throw new BookException("O livro já foi registrado.", HttpStatus.CONFLICT);
         }
     }
 }

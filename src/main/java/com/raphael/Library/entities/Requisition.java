@@ -1,5 +1,6 @@
 package com.raphael.Library.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.indicator.StatusIndicator;
 import jakarta.persistence.*;
@@ -22,6 +23,7 @@ public class Requisition {
     private Long requisitionId;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "associate_id")
     private Associate associate;
 
@@ -30,6 +32,7 @@ public class Requisition {
     private Book book;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private StatusIndicator statusIndicator;
 
     @CreationTimestamp

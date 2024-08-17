@@ -23,9 +23,9 @@ public class BookController {
     private final BookRepository bookRepository;
 
     @PostMapping("/create")
-    public ResponseEntity<BookResponseDTO> createBook(@RequestBody BookRequestDTO bookRequestDTO) throws BookException {
+    public ResponseEntity<Book> createBook(@RequestBody BookRequestDTO bookRequestDTO) throws BookException {
 
-        BookResponseDTO book = bookService.createBook(bookRequestDTO);
+        Book book = bookService.createBook(bookRequestDTO);
 
         return ResponseEntity.ok(book);
     }

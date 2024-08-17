@@ -11,7 +11,7 @@ public enum StatusIndicator {
     POSTERGADO("renovar"),
     FINALIZADO("fechar");
 
-    private String action;
+    private final String action;
 
     public static StatusIndicator getValueByAction(String action) {
 

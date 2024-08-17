@@ -1,5 +1,6 @@
 package com.raphael.Library.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -42,14 +43,15 @@ public class Associate implements UserDetails {
     private RoleIndicator role;
 
     @OneToMany(mappedBy = "associate")
+    @JsonBackReference
     private List<Requisition> booksInPossession;
 
     @CreationTimestamp
-//    @Column(name = "creation", updatable = false)
+    @Column(name = "creationDate", updatable = false)
     private Instant createDate;
 
     @UpdateTimestamp
-//    @Column(name = "update")
+    @Column(name = "updateDate")
     private Instant updateDate;
 
     @Override

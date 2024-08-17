@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @Builder
@@ -15,13 +13,11 @@ import java.time.LocalDate;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RequisitionRequestDTO {
 
-    private long requisitionId;
+    private String requisitionId;
 
-    private long bookId;
+    private String bookName;
 
-    private long associateId;
+    private String associate;
 
     private String action;
-
-    private LocalDate retiredDate;
 }
