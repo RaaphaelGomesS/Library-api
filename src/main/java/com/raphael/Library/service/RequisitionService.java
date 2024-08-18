@@ -18,7 +18,6 @@ import com.raphael.Library.repository.RequisitionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -66,9 +65,9 @@ public class RequisitionService {
 
     public RequisitionPageDTO getRequisitionCloseToExpire(int page, int pageSize) {
 
-        Page<Associate> associates = associateRepository.findAll(PageRequest.of(page, pageSize, Sort.Direction.DESC, "updateDate"));
+        Page<Associate> associates = associateRepository.findAll(PageRequest.of(page, pageSize));
 
-        List<AssociateRequisitionDTO> requisitionDTOS = associates.stream().map(AssociateRequisitionDTOBuilder::from).toList();
+        List<AssociateRequisitionDTO> requisitionDTOS = associates.getContent().stream().map(AssociateRequisitionDTOBuilder::from).toList();
 
         return new RequisitionPageDTO(page, pageSize, associates.getTotalPages(), associates.getTotalElements(), requisitionDTOS);
     }

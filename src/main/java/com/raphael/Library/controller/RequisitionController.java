@@ -22,7 +22,7 @@ public class RequisitionController {
     private final AuthenticationService authenticationService;
 
     @GetMapping("/")
-    public ResponseEntity<RequisitionPageDTO> getAllRequisitionCloseToExpire(@RequestParam(value = "page", defaultValue = "1") int page,
+    public ResponseEntity<RequisitionPageDTO> getAllRequisitionCloseToExpire(@RequestParam(value = "page", defaultValue = "0") int page,
                                                                              @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
         RequisitionPageDTO pageDTO = requisitionService.getRequisitionCloseToExpire(page, pageSize);

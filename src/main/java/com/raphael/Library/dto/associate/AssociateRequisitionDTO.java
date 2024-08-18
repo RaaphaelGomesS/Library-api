@@ -14,5 +14,5 @@ public class AssociateRequisitionDTO {
 
     private long associateId;
 
-    private List<Requisition> requisitions;
+    private List<BooksInPossessionResponseDTO> requisitions;
 }
