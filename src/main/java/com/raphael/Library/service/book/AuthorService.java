@@ -3,6 +3,7 @@ package com.raphael.Library.service.book;
 import com.raphael.Library.dto.book.BookRequestDTO;
 import com.raphael.Library.entities.books.Author;
 import com.raphael.Library.repository.AuthorRepository;
+import com.raphael.Library.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,14 @@ public class AuthorService {
 
     public Author createOrGetAuthor(BookRequestDTO bookRequestDTO) {
 
-        Author author = repository.findByName(bookRequestDTO.getAuthorName()).orElse(null);
+        String authorNameNormalized = StringUtils.normalizeName(bookRequestDTO.getAuthorName());
+
+        Author author = repository.findByName(authorNameNormalized).orElse(null);
 
         if (author == null) {
             Author newAuthor = Author
                     .builder()
-                    .name(bookRequestDTO.getAuthorName())
+                    .name(authorNameNormalized)
                     .books(new ArrayList<>())
                     .build();
 

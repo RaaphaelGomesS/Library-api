@@ -7,6 +7,9 @@ import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.exception.BookException;
 import com.raphael.Library.repository.BookRepository;
 import com.raphael.Library.service.book.BookService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +26,11 @@ public class BookController {
     private final BookRepository bookRepository;
 
     @PostMapping("/create")
+    @Operation(summary = "Adiciona o livro na base de dados.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Retorna o livro criado."),
+            @ApiResponse(responseCode = "404", description = "Nenhum associado encontrado.")
+    })
     public ResponseEntity<Book> createBook(@RequestBody BookRequestDTO bookRequestDTO) throws BookException {
 
         Book book = bookService.createBook(bookRequestDTO);

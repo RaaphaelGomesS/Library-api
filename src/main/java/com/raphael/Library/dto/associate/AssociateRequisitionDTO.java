@@ -1,6 +1,5 @@
 package com.raphael.Library.dto.associate;
 
-import com.raphael.Library.entities.Requisition;
 import lombok.*;
 
 import java.util.List;

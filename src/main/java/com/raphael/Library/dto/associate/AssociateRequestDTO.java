@@ -2,6 +2,8 @@ package com.raphael.Library.dto.associate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter
@@ -13,11 +15,16 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AssociateRequestDTO {
 
+    private long id;
+
     private String name;
 
     private String email;
 
+    @NotBlank
     private String username;
 
+    @NotBlank
+    @Size(min = 8, max = 15)
     private String password;
 }

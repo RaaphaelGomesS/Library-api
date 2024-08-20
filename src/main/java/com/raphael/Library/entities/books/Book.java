@@ -36,7 +36,6 @@ public class Book {
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
-    @JsonBackReference
     @OneToOne(mappedBy = "book")
     private Requisition requisition;
 }

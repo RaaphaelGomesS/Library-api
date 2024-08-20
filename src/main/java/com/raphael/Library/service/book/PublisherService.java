@@ -3,6 +3,7 @@ package com.raphael.Library.service.book;
 import com.raphael.Library.dto.book.BookRequestDTO;
 import com.raphael.Library.entities.books.Publisher;
 import com.raphael.Library.repository.PublisherRepository;
+import com.raphael.Library.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,14 @@ public class PublisherService {
 
     public Publisher createOrGetPublisher(BookRequestDTO bookRequestDTO) {
 
-        Publisher publisher = repository.findByName(bookRequestDTO.getPublisherName()).orElse(null);
+        String publisherNameNormalized = StringUtils.normalizeName(bookRequestDTO.getPublisherName());
+
+        Publisher publisher = repository.findByName(publisherNameNormalized).orElse(null);
 
         if (publisher == null) {
             Publisher newPublisher = Publisher
                     .builder()
-                    .name(bookRequestDTO.getPublisherName())
+                    .name(publisherNameNormalized)
                     .books(new ArrayList<>())
                     .build();
 

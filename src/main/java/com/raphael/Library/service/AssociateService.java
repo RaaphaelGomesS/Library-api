@@ -43,9 +43,9 @@ public class AssociateService {
     }
 
 
-    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO, long id, Associate associateByToken) throws Exception {
+    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO, Associate associateByToken) throws Exception {
 
-        Associate associate = getById(id, associateByToken);
+        Associate associate = getById(associateRequestDTO.getId(), associateByToken);
 
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
         ValidationUtils.verifyPassword(associateRequestDTO.getPassword());

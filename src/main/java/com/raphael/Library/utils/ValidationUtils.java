@@ -48,7 +48,7 @@ public class ValidationUtils {
 
     public static void verifyHasPermission(Associate associateByToken, Associate associate) throws AssociateException {
         if (!(associate.getUsername().equals(associateByToken.getUsername())) && !(associateByToken.getAuthorities().contains("ROLE_ADMIN"))) {
-            throw new AssociateException("Não possui permissão.", HttpStatus.UNAUTHORIZED);
+            throw new AssociateException("Não possui permissão.", HttpStatus.FORBIDDEN);
         }
     }
 }
