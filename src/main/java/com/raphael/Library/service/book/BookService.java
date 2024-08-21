@@ -57,7 +57,7 @@ public class BookService {
                 .orElseThrow(() -> new BookException("Autor não encontrado.", HttpStatus.NOT_FOUND));
 
         if (author.getBooks().isEmpty()) {
-            throw new BookException("Author has no books!", HttpStatus.NOT_FOUND);
+            throw new BookException("Autor não possui livros registrados.", HttpStatus.BAD_REQUEST);
         }
 
         return BookResponseDTOBuilder.fromList(author.getBooks());
@@ -66,10 +66,10 @@ public class BookService {
     public List<BookResponseDTO> getAllBooksByPublisher(String publisherName) throws BookException {
 
         Publisher publisher = publisherRepository.findByName(publisherName)
-                .orElseThrow(() -> new BookException("Autor não encontrado.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BookException("Editora não encontrada.", HttpStatus.NOT_FOUND));
 
         if (publisher.getBooks().isEmpty()) {
-            throw new BookException("Editora não possui livros registrados.", HttpStatus.NOT_FOUND);
+            throw new BookException("Editora não possui livros registrados.", HttpStatus.BAD_REQUEST);
         }
 
         return BookResponseDTOBuilder.fromList(publisher.getBooks());

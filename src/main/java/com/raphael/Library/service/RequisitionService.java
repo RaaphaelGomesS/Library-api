@@ -63,9 +63,13 @@ public class RequisitionService {
                 .toList();
     }
 
-    public RequisitionPageDTO getRequisitionCloseToExpire(int page, int pageSize) {
+    public RequisitionPageDTO getRequisitionCloseToExpire(int page, int pageSize) throws RequisitionException {
 
         Page<Associate> associates = associateRepository.findAll(PageRequest.of(page, pageSize));
+
+        if (associates.getContent().isEmpty()) {
+            throw new RequisitionException("Nenhuma requisição encontrada.", HttpStatus.NOT_FOUND);
+        }
 
         List<AssociateRequisitionDTO> requisitionDTOS = associates.getContent().stream().map(AssociateRequisitionDTOBuilder::from).toList();
 
