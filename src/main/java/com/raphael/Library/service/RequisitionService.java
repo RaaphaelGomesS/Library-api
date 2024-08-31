@@ -8,7 +8,7 @@ import com.raphael.Library.dto.requisition.RequisitionRequestDTO;
 import com.raphael.Library.dto.requisition.RequisitionResponseDTO;
 import com.raphael.Library.entities.Associate;
 import com.raphael.Library.entities.Requisition;
-import com.raphael.Library.entities.books.Book;
+import com.raphael.Library.entities.Book;
 import com.raphael.Library.exception.BookException;
 import com.raphael.Library.exception.RequisitionException;
 import com.raphael.Library.indicator.StatusIndicator;
@@ -78,7 +78,7 @@ public class RequisitionService {
 
     private RequisitionResponseDTO createRequisition(RequisitionRequestDTO requestDTO, Associate associate) throws Exception {
 
-        Book book = bookRepository.findByName(requestDTO.getBookName())
+        Book book = bookRepository.findByBookName(requestDTO.getBookName())
                 .orElseThrow(() -> new BookException("Livro não encontrado.", HttpStatus.NOT_FOUND));
 
         Requisition requisition = Requisition

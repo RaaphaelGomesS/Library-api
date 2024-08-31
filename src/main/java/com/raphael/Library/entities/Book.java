@@ -1,8 +1,5 @@
-package com.raphael.Library.entities.books;
+package com.raphael.Library.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.raphael.Library.entities.Requisition;
 import com.raphael.Library.indicator.GenderIndicator;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,15 +23,11 @@ public class Book {
     @Enumerated(EnumType.STRING)
     private GenderIndicator gender;
 
-    @ManyToOne
-    @JsonManagedReference
-    @JoinColumn(name = "author_id")
-    private Author author;
+    @Column(name = "authorName", nullable = false)
+    private String author;
 
-    @ManyToOne
-    @JsonManagedReference
-    @JoinColumn(name = "publisher_id")
-    private Publisher publisher;
+    @Column(name = "publisherName", nullable = false)
+    private String publisher;
 
     @OneToOne(mappedBy = "book")
     private Requisition requisition;
