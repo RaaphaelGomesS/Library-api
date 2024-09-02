@@ -1,7 +1,6 @@
 package com.raphael.Library.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.raphael.Library.entities.books.Book;
 import com.raphael.Library.indicator.StatusIndicator;
 import jakarta.persistence.*;
 import lombok.*;

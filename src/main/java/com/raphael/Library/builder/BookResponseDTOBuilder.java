@@ -1,7 +1,7 @@
 package com.raphael.Library.builder;
 
 import com.raphael.Library.dto.book.BookResponseDTO;
-import com.raphael.Library.entities.books.Book;
+import com.raphael.Library.entities.Book;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
@@ -20,8 +20,8 @@ public class BookResponseDTOBuilder {
                 .bookId(book.getBookId())
                 .name(book.getName())
                 .gender(book.getGender().name())
-                .author(book.getAuthor().getName())
-                .publisher(book.getPublisher().getName())
+                .author(book.getAuthor())
+                .publisher(book.getPublisher())
                 .build();
     }
 }
