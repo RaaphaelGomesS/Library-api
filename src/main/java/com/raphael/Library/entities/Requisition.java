@@ -17,18 +17,24 @@ import java.time.LocalDate;
 public class Requisition {
 
     @Id
-    @Column(name = "requisition_id")
+    @Column(name = "requisitionId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long requisitionId;
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "associate_id")
+    @JoinColumn(name = "associateId", referencedColumnName = "associateId", nullable = false)
     private Associate associate;
 
+    @Column(name = "associateId", insertable = false, updatable = false, nullable = false)
+    private Long associateId;
+
     @OneToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "bookId", referencedColumnName = "bookId", nullable = false)
     private Book book;
+
+    @Column(name = "bookId", insertable = false, updatable = false, nullable = false)
+    private Long bookId;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

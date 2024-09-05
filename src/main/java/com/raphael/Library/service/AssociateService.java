@@ -35,7 +35,7 @@ public class AssociateService {
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
         ValidationUtils.verifyPassword(associateRequestDTO.getPassword());
 
-        Associate associate = AssociateBuilder.from(associateRequestDTO, passwordEncoder);
+        Associate associate = AssociateBuilder.from(associateRequestDTO);
 
         associateRepository.save(associate);
 
@@ -50,10 +50,7 @@ public class AssociateService {
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
         ValidationUtils.verifyPassword(associateRequestDTO.getPassword());
 
-        associate.setName(associateRequestDTO.getName());
-        associate.setEmail(associateRequestDTO.getEmail());
-        associate.setUsername(associateRequestDTO.getUsername());
-        associate.setPassword(passwordEncoder.encode(associateRequestDTO.getPassword()));
+        AssociateBuilder.fromAssociate(associateRequestDTO, associate.getAssociateId());
 
         associateRepository.save(associate);
 

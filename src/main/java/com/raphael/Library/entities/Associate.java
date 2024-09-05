@@ -22,7 +22,7 @@ import java.util.List;
 public class Associate implements UserDetails {
 
     @Id
-    @Column(name = "associate_id")
+    @Column(name = "associateId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long associateId;
 
