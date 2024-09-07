@@ -11,6 +11,7 @@ public class AssociateResponseDTOBuilder {
     public static AssociateResponseDTO from(Associate associate) {
         return AssociateResponseDTO
                 .builder()
+                .id(associate.getAssociateId())
                 .name(associate.getName())
                 .email(associate.getEmail())
                 .username(associate.getUsername())

@@ -1,11 +1,13 @@
 package com.raphael.Library.utils;
 
 import com.raphael.Library.entities.Associate;
+import com.raphael.Library.entities.Book;
 import com.raphael.Library.entities.Requisition;
 import com.raphael.Library.exception.AssociateException;
 import com.raphael.Library.exception.RequisitionException;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,14 +35,16 @@ public class ValidationUtils {
         }
     }
 
-    public static void verifyManyRequisitionHave(Requisition newReq) throws Exception {
+    public static void verifyManyRequisitionHave(Associate associate, Book book) throws Exception {
 
-        if (newReq.getAssociate().getBooksInPossession().size() >= 3) {
+        List<Requisition> requisitions = associate.getBooksInPossession();
+
+        if (requisitions.size() >= 3) {
             throw new AssociateException("Já possui o máximo de requisições possíveis = 3", HttpStatus.BAD_REQUEST);
         }
 
-        for (Requisition requisition : newReq.getAssociate().getBooksInPossession()) {
-            if (requisition.getBook().getBookId().equals(newReq.getBook().getBookId())) {
+        for (Requisition requisition : requisitions) {
+            if (requisition.getBook().getBookId().equals(book.getBookId())) {
                 throw new RequisitionException("Já existe uma requisição com esse livro.", HttpStatus.BAD_REQUEST);
             }
         }

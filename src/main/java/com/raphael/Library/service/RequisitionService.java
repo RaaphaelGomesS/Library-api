@@ -15,6 +15,7 @@ import com.raphael.Library.indicator.StatusIndicator;
 import com.raphael.Library.repository.AssociateRepository;
 import com.raphael.Library.repository.BookRepository;
 import com.raphael.Library.repository.RequisitionRepository;
+import com.raphael.Library.utils.ValidationUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -81,6 +82,8 @@ public class RequisitionService {
         Book book = bookRepository.findByBookName(requestDTO.getBookName())
                 .orElseThrow(() -> new BookException("Livro não encontrado.", HttpStatus.NOT_FOUND));
 
+        ValidationUtils.verifyManyRequisitionHave(associate, book);
+
         Requisition requisition = Requisition
                 .builder()
                 .book(book)
@@ -90,9 +93,10 @@ public class RequisitionService {
                 .devolutionDate(LocalDate.now().plusWeeks(1L))
                 .build();
 
-        associateService.addRequisition(requisition);
-
         requisitionRepository.save(requisition);
+
+        associate.getBooksInPossession().add(requisition);
+        associateRepository.save(associate);
 
         return RequisitionResponseDTOBuilder.from(requisition);
     }

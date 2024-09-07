@@ -1,6 +1,6 @@
 package com.raphael.Library.dto.associate;
 
-import com.raphael.Library.entities.Requisition;
+import com.raphael.Library.dto.requisition.RequisitionResponseDTO;
 import lombok.*;
 
 import java.util.List;
@@ -20,5 +20,5 @@ public class AssociateResponseDTO {
 
     private String username;
 
-    private List<Requisition> booksInPossession;
+    private List<RequisitionResponseDTO> booksInPossession;
 }

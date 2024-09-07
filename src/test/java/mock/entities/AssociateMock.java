@@ -12,7 +12,7 @@ public class AssociateMock {
                 .name("Raphael")
                 .email("emailteste@gmail.com")
                 .username("teste")
-                .password("teste")
+                .password("Senha123@")
                 .role(Associate.RoleIndicator.DEFAULT)
                 .createDate(Instant.now())
                 .updateDate(Instant.now())
