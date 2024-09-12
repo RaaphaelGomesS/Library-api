@@ -5,11 +5,13 @@ import com.raphael.Library.entities.Associate;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-@Builder
+@Component
 @RequiredArgsConstructor
 public class AssociateBuilder {
 

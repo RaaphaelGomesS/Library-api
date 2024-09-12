@@ -6,6 +6,7 @@ import com.raphael.Library.dto.book.BookRequestDTO;
 import com.raphael.Library.dto.book.BookResponseDTO;
 import com.raphael.Library.entities.Book;
 import com.raphael.Library.exception.BookException;
+import com.raphael.Library.indicator.GenderIndicator;
 import com.raphael.Library.repository.BookRepository;
 import com.raphael.Library.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +22,15 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    public Book createBook(BookRequestDTO bookRequestDTO) throws BookException {
+    public BookResponseDTO createBook(BookRequestDTO bookRequestDTO) throws BookException {
 
         verifyIfAlreadyExist(bookRequestDTO);
 
-        Book book = BookBuilder.from(bookRequestDTO);
+        Book newBook = BookBuilder.from(bookRequestDTO);
 
-        bookRepository.save(book);
+        Book book = bookRepository.save(newBook);
 
-        return book;
+        return BookResponseDTOBuilder.from(book);
     }
 
     public List<BookResponseDTO> getAllBooksByAuthor(String authorName) throws BookException {
@@ -58,7 +59,7 @@ public class BookService {
 
         List<Book> books = bookRepository.findAll()
                 .stream()
-                .filter(book -> book.getGender().getNames().contains(gender))
+                .filter(book -> book.getGender().equals(GenderIndicator.getValueByName(gender)))
                 .toList();
 
         if (books.isEmpty()) {

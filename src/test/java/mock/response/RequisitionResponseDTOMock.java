@@ -13,7 +13,7 @@ public class RequisitionResponseDTOMock {
         return RequisitionResponseDTO
                 .builder()
                 .requisitionId(1L)
-                .statusIndicator(StatusIndicator.ABERTO)
+                .statusIndicator(StatusIndicator.CRIADO)
                 .retiredDate(LocalDate.now())
                 .devolutionDate(LocalDate.now().plusWeeks(1L))
                 .build();

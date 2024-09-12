@@ -7,9 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum StatusIndicator {
 
-    ABERTO("abrir"),
+    CRIADO("criar"),
     POSTERGADO("renovar"),
-    FINALIZADO("fechar");
+    FINALIZADO("finalizar");
 
     private final String action;
 

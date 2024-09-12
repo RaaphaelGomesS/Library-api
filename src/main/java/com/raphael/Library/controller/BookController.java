@@ -3,10 +3,10 @@ package com.raphael.Library.controller;
 import com.raphael.Library.builder.BookResponseDTOBuilder;
 import com.raphael.Library.dto.book.BookRequestDTO;
 import com.raphael.Library.dto.book.BookResponseDTO;
-import com.raphael.Library.entities.Book;
 import com.raphael.Library.exception.BookException;
 import com.raphael.Library.repository.BookRepository;
 import com.raphael.Library.service.BookService;
+import com.raphael.Library.utils.StringUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -32,9 +32,9 @@ public class BookController {
             @ApiResponse(responseCode = "200", description = "Retorna o livro criado."),
             @ApiResponse(responseCode = "403", description = "O livro já foi registrado.")
     })
-    public ResponseEntity<Book> createBook(@RequestBody BookRequestDTO bookRequestDTO) throws BookException {
+    public ResponseEntity<BookResponseDTO> createBook(@RequestBody BookRequestDTO bookRequestDTO) throws BookException {
 
-        Book book = bookService.createBook(bookRequestDTO);
+        BookResponseDTO book = bookService.createBook(bookRequestDTO);
 
         return ResponseEntity.ok(book);
     }
@@ -81,7 +81,7 @@ public class BookController {
     })
     public ResponseEntity<List<BookResponseDTO>> getAllBooksFromAuthor(@RequestParam("author") String authorName) throws BookException {
 
-        List<BookResponseDTO> book = bookService.getAllBooksByAuthor(authorName);
+        List<BookResponseDTO> book = bookService.getAllBooksByAuthor(StringUtils.normalizeName(authorName));
 
         return ResponseEntity.ok(book);
     }
@@ -95,7 +95,7 @@ public class BookController {
     })
     public ResponseEntity<List<BookResponseDTO>> getAllBooksFromPublisher(@RequestParam("publisher") String publisherName) throws BookException {
 
-        List<BookResponseDTO> book = bookService.getAllBooksByPublisher(publisherName);
+        List<BookResponseDTO> book = bookService.getAllBooksByPublisher(StringUtils.normalizeName(publisherName));
 
         return ResponseEntity.ok(book);
     }

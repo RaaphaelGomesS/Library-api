@@ -14,7 +14,7 @@ public class RequisitionMock {
                 .requisitionId(1L)
                 .associateId(1L)
                 .bookId(1L)
-                .statusIndicator(StatusIndicator.ABERTO)
+                .statusIndicator(StatusIndicator.CRIADO)
                 .retiredDate(LocalDate.now())
                 .updateDate(null)
                 .devolutionDate(LocalDate.now().plusWeeks(1L))

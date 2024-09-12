@@ -44,7 +44,7 @@ public class ValidationUtils {
         }
 
         for (Requisition requisition : requisitions) {
-            if (requisition.getBook().getBookId().equals(book.getBookId())) {
+            if (requisition.getBookId().equals(book.getBookId())) {
                 throw new RequisitionException("Já existe uma requisição com esse livro.", HttpStatus.BAD_REQUEST);
             }
         }

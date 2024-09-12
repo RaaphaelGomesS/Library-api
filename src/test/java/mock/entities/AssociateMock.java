@@ -1,8 +1,13 @@
 package mock.entities;
 
 import com.raphael.Library.entities.Associate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.Instant;
+import java.util.Collections;
+import java.util.List;
 
 public class AssociateMock {
 
@@ -18,5 +23,13 @@ public class AssociateMock {
                 .updateDate(Instant.now())
                 .booksInPossession(RequisitionMock.toList())
                 .build();
+    }
+
+    public static List<Associate> toList() {
+        return Collections.singletonList(toEntity());
+    }
+
+    public static Page<Associate> toPage() {
+        return new PageImpl<>(toList(), PageRequest.of(1, 10), toList().size());
     }
 }

@@ -48,7 +48,7 @@ public class RequisitionService {
         }
 
         return switch (statusIndicator) {
-            case ABERTO -> createRequisition(requestDTO, associate);
+            case CRIADO -> createRequisition(requestDTO, associate);
             case POSTERGADO -> updateRequisition(requestDTO);
             case FINALIZADO -> closeRequisition(requestDTO);
         };
@@ -88,7 +88,7 @@ public class RequisitionService {
                 .builder()
                 .book(book)
                 .associate(associate)
-                .statusIndicator(StatusIndicator.ABERTO)
+                .statusIndicator(StatusIndicator.CRIADO)
                 .retiredDate(LocalDate.now())
                 .devolutionDate(LocalDate.now().plusWeeks(1L))
                 .build();
@@ -114,9 +114,9 @@ public class RequisitionService {
         requisition.setStatusIndicator(StatusIndicator.POSTERGADO);
         requisition.setDevolutionDate(LocalDate.now().plusWeeks(1L));
 
-        requisitionRepository.save(requisition);
+        Requisition requisitionAtt = requisitionRepository.save(requisition);
 
-        return RequisitionResponseDTOBuilder.from(requisition);
+        return RequisitionResponseDTOBuilder.from(requisitionAtt);
     }
 
     private RequisitionResponseDTO closeRequisition(RequisitionRequestDTO requestDTO) throws RequisitionException {
@@ -131,8 +131,8 @@ public class RequisitionService {
         requisition.setStatusIndicator(StatusIndicator.FINALIZADO);
         requisition.setDevolutionDate(null);
 
-        requisitionRepository.save(requisition);
+        Requisition requisitionDel = requisitionRepository.save(requisition);
 
-        return RequisitionResponseDTOBuilder.from(requisition);
+        return RequisitionResponseDTOBuilder.from(requisitionDel);
     }
 }
