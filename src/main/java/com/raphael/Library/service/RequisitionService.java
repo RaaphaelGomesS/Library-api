@@ -93,46 +93,46 @@ public class RequisitionService {
                 .devolutionDate(LocalDate.now().plusWeeks(1L))
                 .build();
 
-        requisitionRepository.save(requisition);
+        Requisition save = requisitionRepository.save(requisition);
 
-        associate.getBooksInPossession().add(requisition);
+        associate.getBooksInPossession().add(save);
         associateRepository.save(associate);
 
-        return RequisitionResponseDTOBuilder.from(requisition);
+        return RequisitionResponseDTOBuilder.from(save);
     }
 
 
     private RequisitionResponseDTO updateRequisition(RequisitionRequestDTO requestDTO) throws RequisitionException {
 
-        if (requestDTO.getRequisitionId() == null) {
-            throw new RequisitionException("É necessário o Id da requisição para atualiza-la.", HttpStatus.BAD_REQUEST);
-        }
-
-        Requisition requisition = requisitionRepository.findById(Long.parseLong(requestDTO.getRequisitionId()))
-                .orElseThrow(() -> new RequisitionException("Requisition não existe!", HttpStatus.NOT_FOUND));
+        Requisition requisition = getRequisition(requestDTO);
 
         requisition.setStatusIndicator(StatusIndicator.POSTERGADO);
         requisition.setDevolutionDate(LocalDate.now().plusWeeks(1L));
 
-        Requisition requisitionAtt = requisitionRepository.save(requisition);
+        Requisition save = requisitionRepository.save(requisition);
 
-        return RequisitionResponseDTOBuilder.from(requisitionAtt);
+        return RequisitionResponseDTOBuilder.from(save);
     }
 
     private RequisitionResponseDTO closeRequisition(RequisitionRequestDTO requestDTO) throws RequisitionException {
 
-        if (requestDTO.getRequisitionId() == null) {
-            throw new RequisitionException("É necessário o Id da requisição para finaliza-la.", HttpStatus.BAD_REQUEST);
-        }
-
-        Requisition requisition = requisitionRepository.findById(Long.parseLong(requestDTO.getRequisitionId()))
-                .orElseThrow(() -> new RequisitionException("Requisition não existe!", HttpStatus.NOT_FOUND));
+        Requisition requisition = getRequisition(requestDTO);
 
         requisition.setStatusIndicator(StatusIndicator.FINALIZADO);
         requisition.setDevolutionDate(null);
 
-        Requisition requisitionDel = requisitionRepository.save(requisition);
+        Requisition save = requisitionRepository.save(requisition);
 
-        return RequisitionResponseDTOBuilder.from(requisitionDel);
+        return RequisitionResponseDTOBuilder.from(save);
+    }
+
+    private Requisition getRequisition(RequisitionRequestDTO requestDTO) throws RequisitionException {
+
+        if (requestDTO.getRequisitionId() == null) {
+            throw new RequisitionException("É necessário o Id da requisição.", HttpStatus.BAD_REQUEST);
+        }
+
+        return requisitionRepository.findById(Long.parseLong(requestDTO.getRequisitionId()))
+                .orElseThrow(() -> new RequisitionException("Requisition não existe!", HttpStatus.NOT_FOUND));
     }
 }

@@ -12,8 +12,9 @@ public class AssociateRequisitionDTOBuilder {
     public static AssociateRequisitionDTO from(Associate associate) {
         return AssociateRequisitionDTO.builder()
                 .associateId(associate.getAssociateId())
-                .requisitions(associate.getBooksInPossession()
-                        .stream().map(AssociateRequisitionDTOBuilder::buildBookInPossession).toList())
+                .requisitions(associate.getBooksInPossession().stream()
+                        .map(AssociateRequisitionDTOBuilder::buildBookInPossession)
+                        .toList())
                 .build();
     }
 
@@ -21,7 +22,7 @@ public class AssociateRequisitionDTOBuilder {
         return BooksInPossessionResponseDTO
                 .builder()
                 .requisitionId(requisition.getRequisitionId())
-                .bookName(requisition.getBook().getName())
+                .bookId(requisition.getBookId())
                 .status(requisition.getStatusIndicator())
                 .retiredDate(requisition.getRetiredDate())
                 .updateDate(requisition.getUpdateDate())

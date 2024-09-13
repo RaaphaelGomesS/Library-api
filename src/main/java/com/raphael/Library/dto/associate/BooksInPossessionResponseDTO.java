@@ -14,7 +14,7 @@ public class BooksInPossessionResponseDTO {
 
     private long requisitionId;
 
-    private String bookName;
+    private long bookId;
 
     private StatusIndicator status;
 
