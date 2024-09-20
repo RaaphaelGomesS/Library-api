@@ -36,14 +36,13 @@ public class AssociateController {
     })
     public ResponseEntity<List<Associate>> getAllAssociate() throws AssociateException {
 
-        List<Associate> associate = repository.findAll();
+        List<Associate> associates = repository.findAll();
 
-        if (associate.isEmpty()) {
+        if (associates.isEmpty()) {
             throw new AssociateException("Nenhum associado encontrado.", HttpStatus.NOT_FOUND);
         }
 
-        return ResponseEntity.ok(associate);
-
+        return ResponseEntity.ok(associates);
     }
 
     @GetMapping("/{id}")
@@ -73,9 +72,9 @@ public class AssociateController {
 
         Associate associateByToken = authenticationService.validateToken(auth);
 
-        AssociateResponseDTO associate = service.updateAssociate(associateRequestDTO, associateByToken);
+        AssociateResponseDTO responseDTO = service.updateAssociate(associateRequestDTO, associateByToken);
 
-        return ResponseEntity.ok(associate);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @DeleteMapping("/{id}")
