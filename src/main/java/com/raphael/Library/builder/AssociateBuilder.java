@@ -2,10 +2,7 @@ package com.raphael.Library.builder;
 
 import com.raphael.Library.dto.associate.AssociateRequestDTO;
 import com.raphael.Library.entities.Associate;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.UtilityClass;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
