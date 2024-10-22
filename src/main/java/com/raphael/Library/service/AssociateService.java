@@ -41,9 +41,9 @@ public class AssociateService {
     }
 
 
-    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO, Associate associateByToken) throws Exception {
+    public AssociateResponseDTO updateAssociate(AssociateRequestDTO associateRequestDTO, Associate associateAuthenticated) throws Exception {
 
-        Associate associate = getById(associateRequestDTO.getId(), associateByToken);
+        Associate associate = getById(associateRequestDTO.getId(), associateAuthenticated);
 
         ValidationUtils.verifyEmail(associateRequestDTO.getEmail());
         ValidationUtils.verifyPassword(associateRequestDTO.getPassword());
@@ -55,30 +55,30 @@ public class AssociateService {
         return AssociateResponseDTOBuilder.from(associate);
     }
 
-    public void deleteAssociate(long associateId, Associate associateByToken) throws Exception {
+    public void deleteAssociate(long associateId, Associate associate) throws Exception {
 
-        Associate associate = getById(associateId, associateByToken);
+        associate = getById(associateId, associate);
 
         associateRepository.delete(associate);
     }
 
-    public Associate getById(long associateId, Associate associateByToken) throws Exception {
+    public Associate getById(long associateId, Associate associate) throws Exception {
 
-        Associate associate = associateRepository.findById(associateId)
+        if (!associate.getRole().equals(Associate.RoleIndicator.ADMIN)) {
+            return associate;
+        }
+
+        return associateRepository.findById(associateId)
                 .orElseThrow(() -> new AssociateException("Associado não encontrado.", HttpStatus.NOT_FOUND));
-
-        ValidationUtils.verifyHasPermission(associateByToken, associate);
-
-        return associate;
     }
 
-    public Associate getByUsername(String username, Associate associateByToken) throws Exception {
+    public Associate getByUsername(String username, Associate associate) throws Exception {
 
-        Associate associate = associateRepository.findByUsername(username)
+        if (!associate.getRole().equals(Associate.RoleIndicator.ADMIN)) {
+            return associate;
+        }
+
+        return associateRepository.findByUsername(username)
                 .orElseThrow(() -> new AssociateException("Associado não encontrado.", HttpStatus.NOT_FOUND));
-
-        ValidationUtils.verifyHasPermission(associateByToken, associate);
-
-        return associate;
     }
 }

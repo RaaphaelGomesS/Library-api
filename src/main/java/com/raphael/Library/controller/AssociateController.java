@@ -54,9 +54,9 @@ public class AssociateController {
     })
     public ResponseEntity<Associate> getAssociate(@PathVariable long id, @RequestHeader String auth) throws Exception {
 
-        Associate associateByToken = authenticationService.validateToken(auth);
+        Associate associateAuthenticated = authenticationService.validateToken(auth);
 
-        Associate associate = service.getById(id, associateByToken);
+        Associate associate = service.getById(id, associateAuthenticated);
 
         return ResponseEntity.ok(associate);
     }
@@ -70,15 +70,15 @@ public class AssociateController {
     })
     public ResponseEntity<AssociateResponseDTO> updateAssociate(@RequestBody AssociateRequestDTO associateRequestDTO, @RequestHeader String auth) throws Exception {
 
-        Associate associateByToken = authenticationService.validateToken(auth);
+        Associate associateAuthenticated = authenticationService.validateToken(auth);
 
-        AssociateResponseDTO responseDTO = service.updateAssociate(associateRequestDTO, associateByToken);
+        AssociateResponseDTO responseDTO = service.updateAssociate(associateRequestDTO, associateAuthenticated);
 
         return ResponseEntity.ok(responseDTO);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Deleta associado pelo Id, somente admin pode alterar outro associado.")
+    @Operation(summary = "Deleta associado pelo Id, somente admin pode deletar outro associado.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Associado deletado."),
             @ApiResponse(responseCode = "404", description = "Associado não encontrado."),
@@ -86,9 +86,9 @@ public class AssociateController {
     })
     public ResponseEntity<String> deleteAssociate(@PathVariable long id, @RequestHeader String auth) throws Exception {
 
-        Associate associateByToken = authenticationService.validateToken(auth);
+        Associate associateAuthenticated = authenticationService.validateToken(auth);
 
-        service.deleteAssociate(id, associateByToken);
+        service.deleteAssociate(id, associateAuthenticated);
 
         return ResponseEntity.ok("Associado deletado, id: " + id);
     }
