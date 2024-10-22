@@ -53,5 +53,5 @@ Execute a aplicação
 ## Documentação
 
 A documentação está disponível no
-[Swagger](https://link-da-documentação) rodando localmente.
+[Swagger](http://localhost:5508/swagger-ui/index.html) rodando localmente.
 

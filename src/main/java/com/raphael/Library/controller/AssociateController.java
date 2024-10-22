@@ -1,5 +1,6 @@
 package com.raphael.Library.controller;
 
+import com.raphael.Library.builder.AssociateResponseDTOBuilder;
 import com.raphael.Library.dto.associate.AssociateRequestDTO;
 import com.raphael.Library.dto.associate.AssociateResponseDTO;
 import com.raphael.Library.entities.Associate;
@@ -52,13 +53,13 @@ public class AssociateController {
             @ApiResponse(responseCode = "404", description = "Associado não encontrado."),
             @ApiResponse(responseCode = "403", description = "Não possui permissão.")
     })
-    public ResponseEntity<Associate> getAssociate(@PathVariable long id, @RequestHeader String auth) throws Exception {
+    public ResponseEntity<AssociateResponseDTO> getAssociate(@PathVariable long id, @RequestHeader String auth) throws Exception {
 
         Associate associateAuthenticated = authenticationService.validateToken(auth);
 
         Associate associate = service.getById(id, associateAuthenticated);
 
-        return ResponseEntity.ok(associate);
+        return ResponseEntity.ok(AssociateResponseDTOBuilder.from(associate));
     }
 
     @PutMapping("/update")
