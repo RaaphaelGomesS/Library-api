@@ -1,7 +1,7 @@
 
 # LIBRARY-API
 
-Se trata de uma aplicação em Java com Spring que visa gerenciar uma biblioteca. Apresenta a listagem dos livros e o recurso de requisição desses livros, assim como um CRUD relacionado ao usuário (Associado).
+Se trata de uma aplicação em Java com Spring de gerenciamento bibliotecário. Apresenta a listagem dos livros e o recurso de requisição desses livros, assim como um CRUD relacionado ao usuário (Associado).
 
 O admin possui poder de alterar outras contas além da sua, porém cada usuário só pode alterar a própria conta e fazer requisições para a mesma.
 
